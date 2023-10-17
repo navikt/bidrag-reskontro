@@ -1,0 +1,6 @@
+name: bidrag-template-spring
+ingresses:
+  - https://bidrag-template-spring.intern.nav.no
+env:
+  BIDRAG_PERSON_URL: https://bidrag-person.prod-fss-pub.nais.io/bidrag-person
+  BIDRAG_PERSON_SCOPE: prod-fss.bidrag.bidrag-person-feature
