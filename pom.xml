@@ -30,6 +30,10 @@
 	<repositories>
 		<repository>
 			<id>github</id>
+			<url>https://maven.pkg.github.com/navikt/bidrag-commons</url>
+		</repository>
+		<repository>
+			<id>github</id>
 			<name>GitHub felles Apache Maven Packages for navikt</name>
 			<url>https://maven.pkg.github.com/navikt/maven-release/</url>
 		</repository>
