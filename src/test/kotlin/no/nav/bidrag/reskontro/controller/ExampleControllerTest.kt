@@ -1,9 +1,9 @@
-package no.nav.bidrag.template.controller
+package no.nav.bidrag.reskontro.controller
 
 import io.kotest.matchers.shouldBe
 import no.nav.bidrag.domain.ident.PersonIdent
-import no.nav.bidrag.template.SpringTestRunner
-import no.nav.bidrag.template.model.HentPersonResponse
+import no.nav.bidrag.reskontro.SpringTestRunner
+import no.nav.bidrag.reskontro.model.HentPersonResponse
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod

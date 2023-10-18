@@ -1,8 +1,8 @@
-package no.nav.bidrag.template.service
+package no.nav.bidrag.reskontro.service
 
 import no.nav.bidrag.domain.ident.PersonIdent
-import no.nav.bidrag.template.consumer.BidragPersonConsumer
-import no.nav.bidrag.template.model.HentPersonResponse
+import no.nav.bidrag.reskontro.consumer.BidragPersonConsumer
+import no.nav.bidrag.reskontro.model.HentPersonResponse
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 

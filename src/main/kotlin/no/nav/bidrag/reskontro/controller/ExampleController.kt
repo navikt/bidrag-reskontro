@@ -1,12 +1,12 @@
-package no.nav.bidrag.template.controller
+package no.nav.bidrag.reskontro.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import no.nav.bidrag.domain.ident.PersonIdent
-import no.nav.bidrag.template.model.HentPersonResponse
-import no.nav.bidrag.template.service.ExampleService
+import no.nav.bidrag.reskontro.model.HentPersonResponse
+import no.nav.bidrag.reskontro.service.ExampleService
 import no.nav.security.token.support.core.api.Protected
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

@@ -1,4 +1,4 @@
-package no.nav.bidrag.template
+package no.nav.bidrag.reskontro
 
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
 import org.springframework.boot.SpringApplication
