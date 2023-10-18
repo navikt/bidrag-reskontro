@@ -1,6 +1,6 @@
 name: bidrag-reskontro-feature
 ingresses:
-  - https://bidrag-reskontro-feature.dev.intern.nav.no
+  - https://bidrag-reskontro-feature.intern.dev.nav.no
 env:
   BIDRAG_PERSON_URL: https://bidrag-person-feature.dev-fss-pub.nais.io/bidrag-person
   BIDRAG_PERSON_SCOPE: dev-fss.bidrag.bidrag-person-feature
