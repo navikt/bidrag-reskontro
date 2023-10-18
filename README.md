@@ -1,14 +1,11 @@
 # Bidrag-template-spring
 Template repo for å opprette ny Spring applikasjon for Bidrag
 
-[![continuous integration](https://github.com/navikt/bidrag-template-spring/actions/workflows/ci.yaml/badge.svg)](https://github.com/navikt/bidrag-dialog/actions/workflows/ci.yaml)
-[![release bidrag-template-spring](https://github.com/navikt/bidrag-template-spring/actions/workflows/release.yaml/badge.svg)](https://github.com/navikt/bidrag-dialog/actions/workflows/release.yaml)
+[![continuous integration](https://github.com/navikt/bidrag-reskontro/actions/workflows/ci.yaml/badge.svg)](https://github.com/navikt/bidrag-reskontro/actions/workflows/ci.yaml)
+[![release bidrag-reskontro](https://github.com/navikt/bidrag-reskontro/actions/workflows/release.yaml/badge.svg)](https://github.com/navikt/bidrag-reskontro/actions/workflows/release.yaml)
 
 ## Beskrivelse
 
-Erstatt alt som har postfix `-template-spring` med din applikasjonsnavn
-
-Legg til Github secret `NAIS_DEPLOY_APIKEY` hvor secret hentes fra [Api key](https://deploy.nais.io/apikeys)
 
 ## Kjøre applikasjonen lokalt
 
