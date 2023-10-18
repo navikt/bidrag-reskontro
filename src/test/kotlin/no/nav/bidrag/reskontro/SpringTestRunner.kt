@@ -1,4 +1,4 @@
-package no.nav.bidrag.template
+package no.nav.bidrag.reskontro
 
 import StubUtils
 import com.github.tomakehurst.wiremock.WireMockServer

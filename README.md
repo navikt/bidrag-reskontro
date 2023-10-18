@@ -6,10 +6,9 @@ Template repo for å opprette ny Spring applikasjon for Bidrag
 
 ## Beskrivelse
 
-
 ## Kjøre applikasjonen lokalt
 
-Start opp applikasjonen ved å kjøre [BidragTemplateLocal.kt](src/test/kotlin/no/nav/bidrag/template/BidragTemplateLocal.kt).
+Start opp applikasjonen ved å kjøre [BidragTemplateLocal.kt](src/test/kotlin/no/nav/bidrag/reskontro/BidragReskontroLocal.kt).
 Dette starter applikasjonen med profil `local` og henter miljøvariabler for Q1 miljøet fra filen [application-local.yaml](src/test/resources/application-local.yaml).
 
 Her mangler det noen miljøvariabler som ikke bør committes til Git (Miljøvariabler for passord/secret osv).<br/>
