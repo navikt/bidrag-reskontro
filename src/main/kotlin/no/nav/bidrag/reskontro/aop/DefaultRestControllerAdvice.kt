@@ -1,5 +1,6 @@
 package no.nav.bidrag.reskontro.aop
 
+import no.nav.bidrag.reskontro.exceptions.IngenDataFraSkattException
 import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnauthorizedException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
@@ -55,6 +56,15 @@ class DefaultRestControllerAdvice {
         return ResponseEntity
             .status(HttpStatus.UNAUTHORIZED)
             .header(HttpHeaders.WARNING, "Ugyldig eller manglende sikkerhetstoken")
+            .build<Any>()
+    }
+
+    @ResponseBody
+    @ExceptionHandler(IngenDataFraSkattException::class)
+    fun handleUnauthorizedException(exception: IngenDataFraSkattException): ResponseEntity<*> {
+        return ResponseEntity
+            .status(HttpStatus.NO_CONTENT)
+            .header(HttpHeaders.ACCEPT, "Fant ingen data")
             .build<Any>()
     }
 }

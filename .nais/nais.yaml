@@ -37,6 +37,15 @@ spec:
     requests:
       cpu: 500m
       memory: 1024Mi
+  replicas:
+    disableAutoScaling: true
+    max: 2
+    min: 2
+  maskinporten:
+    enabled: true
+    scopes:
+      consumes:
+        - name: "nav:bidrag/v1/bidragskrav" //TODO()
   ingresses:
   {{#each ingresses as |url|}}
     - {{url}}
@@ -46,4 +55,8 @@ spec:
      - name: {{@key}}
        value: "{{this}}"
   {{/each}}
+  accessPolicy:
+    outbound:
+      external:
+        - host: { { env.SKATT_HOST } }
 

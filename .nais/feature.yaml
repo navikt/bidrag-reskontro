@@ -1,7 +1,9 @@
 name: bidrag-reskontro-feature
 ingresses:
   - https://bidrag-reskontro-feature.intern.dev.nav.no
+maskinporten:
+  url: https://test.maskinporten.no
 env:
-  BIDRAG_PERSON_URL: https://bidrag-person-feature.dev-fss-pub.nais.io/bidrag-person
-  BIDRAG_PERSON_SCOPE: dev-fss.bidrag.bidrag-person-feature
+  SKATT_URL: https://bidrag-stubs.dev.intern.nav.no #TODO()
+  SKATT_HOST: bidrag-stubs.dev.intern.nav.no #TODO()
   JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp -XX:MaxRAMPercentage=80.0
