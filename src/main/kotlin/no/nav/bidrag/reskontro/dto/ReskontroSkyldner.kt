@@ -5,7 +5,7 @@ import no.nav.bidrag.domain.ident.PersonIdent
 import java.math.BigInteger
 
 @Schema(
-    name = "ReskontroSkyldner",
+    name = "Skyldner",
     description = "Informasjon om skyldner."
 )
 data class ReskontroSkyldner(
@@ -16,7 +16,7 @@ data class ReskontroSkyldner(
     val personIdent: PersonIdent,
 
     @field:Schema(
-        description = "Summen av det løpende bidraget på skyldner." +
+        description = "Summen av det løpende bidraget på skyldner. " +
             "Beregnes ikke for innkrevningssak på person, kun for informasjon om innkrevingssaken."
     )
     val sumLøpendeBidrag: BigInteger? = null,
