@@ -45,8 +45,7 @@ spec:
     enabled: true
     scopes:
       consumes:
-        - name: "nav:bidrag/v1/bidragskrav" //TODO()
-        - name: "nav:bidrag/v1/bidragskravq2"
+        - name: "nav:bidrag/v1/bidragskrav"
   ingresses:
   {{#each ingresses as |url|}}
     - {{url}}
