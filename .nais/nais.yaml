@@ -58,5 +58,5 @@ spec:
   accessPolicy:
     outbound:
       external:
-        - host: { { env.SKATT_HOST } }
+        - host: {{ env.SKATT_HOST }}
 
