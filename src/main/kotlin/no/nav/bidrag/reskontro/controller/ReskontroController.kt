@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import no.nav.bidrag.domain.ident.PersonIdent
 import no.nav.bidrag.reskontro.dto.EndreRmForSak
+import no.nav.bidrag.reskontro.dto.InnkrevingssakPåPersonRequest
+import no.nav.bidrag.reskontro.dto.InnkrevingssakPåSaksnummerRequest
 import no.nav.bidrag.reskontro.dto.ReskontroBidragssak
 import no.nav.bidrag.reskontro.dto.ReskontroBidragssakMedSkyldner
 import no.nav.bidrag.reskontro.dto.TransaksjonerPåBidragssak
@@ -34,8 +36,8 @@ class ReskontroController(val reskontroService: ReskontroService) {
             ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig")
         ]
     )
-    fun hentInnkrevingssakPåBidragssak(@RequestBody bidragssak: Long): ReskontroBidragssak {
-        return reskontroService.hentInnkrevingssakPåBidragssak(bidragssak)
+    fun hentInnkrevingssakPåBidragssak(@RequestBody bidragssak: InnkrevingssakPåSaksnummerRequest): ReskontroBidragssak {
+        return reskontroService.hentInnkrevingssakPåSak(bidragssak)
     }
 
     @PostMapping("/innkrevningssak/person")
@@ -50,7 +52,7 @@ class ReskontroController(val reskontroService: ReskontroService) {
             ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig")
         ]
     )
-    fun hentInnkrevingssakPåBidragssak(@RequestBody personIdent: PersonIdent): ReskontroBidragssakMedSkyldner {
+    fun hentInnkrevingssakPåBidragssak(@RequestBody personIdent: InnkrevingssakPåPersonRequest): ReskontroBidragssakMedSkyldner {
         return reskontroService.hentInnkrevingssakPåPerson(personIdent)
     }
 
@@ -68,7 +70,7 @@ class ReskontroController(val reskontroService: ReskontroService) {
     )
     fun hentTransaksjonerPåBidragssak(@RequestBody transaksjonerPåBidragssak: TransaksjonerPåBidragssak): String {
         return reskontroService.hentTransaksjonerPåBidragssak(
-            transaksjonerPåBidragssak.bidragssaksnummer,
+            transaksjonerPåBidragssak.saksnummer,
             transaksjonerPåBidragssak.fomDato,
             transaksjonerPåBidragssak.tomDato,
             transaksjonerPåBidragssak.antallTransaksjoner
@@ -145,6 +147,6 @@ class ReskontroController(val reskontroService: ReskontroService) {
         ]
     )
     fun endreRmForSak(@RequestBody endreRmForSak: EndreRmForSak): String {
-        return reskontroService.endreRmForSak(endreRmForSak.bidragssaksnummer, endreRmForSak.barn, endreRmForSak.nyRm)
+        return reskontroService.endreRmForSak(endreRmForSak.saksnummer, endreRmForSak.barn, endreRmForSak.nyRm)
     }
 }

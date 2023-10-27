@@ -28,7 +28,7 @@ data class ReskontroSaksinformasjonBarn(
     val restGjeldPrivat: BigInteger,
 
     @field:Schema(
-        description = "Sum av beløp som ikke er utbetalt tilbake til bidragspliktig. Dette kan skje ved for mye innbetalt eller annullerte beløp." +
+        description = "Sum av beløp som ikke er utbetalt tilbake til bidragspliktig. Dette kan skje ved for mye innbetalt eller annullerte beløp. " +
             "Beregnes ikke for kall på personIdent."
     )
     val sumIkkeUtbetalt: BigInteger? = null,
@@ -39,37 +39,37 @@ data class ReskontroSaksinformasjonBarn(
     val sumForskuddUtbetalt: BigInteger,
 
     @field:Schema(
-        description = "Sum av restbeløp på forskudd (A1)." +
+        description = "Sum av restbeløp på forskudd (A1). " +
             "Beregnes ikke for kall på saksnummer."
     )
     val restGjeldPrivatAndel: BigInteger? = null,
 
     @field:Schema(
-        description = "Sum av restbeløp på forskudd (A1)." +
+        description = "Sum av restbeløp på forskudd (A1). " +
             "Beregnes ikke for kall på saksnummer."
     )
     val sumInnbetaltAndel: BigInteger? = null,
 
     @field:Schema(
-        description = "Sum av restbeløp på forskudd (A1)." +
+        description = "Sum av restbeløp på forskudd (A1). " +
             "Beregnes ikke for kall på saksnummer."
     )
     val sumForskuddUtbetaltAndel: BigInteger? = null,
 
     @field:Schema(
-        description = "Siste fra og med dato for B1, D1 eller F1. Angitt som første dato i måneden." +
+        description = "Siste fra og med dato for B1, D1 eller F1. Angitt som første dato i måneden. " +
             "Beregnes ikke for kall på personIdent."
     )
     val sisteFomDato: FomDato? = null,
 
     @field:Schema(
-        description = "Siste til og med dato for B1, D1 eller F1. Angitt som første dato i måneden." +
+        description = "Siste til og med dato for B1, D1 eller F1. Angitt som første dato i måneden. " +
             "Beregnes ikke for kall på personIdent."
     )
     val sisteTomDato: TomDato? = null,
 
     @field:Schema(
-        description = "Angir om det er stopp i utbetaling." +
+        description = "Angir om det er stopp i utbetaling. " +
             "Beregnes ikke for kall på personIdent."
     )
     val erStoppIUtbetaling: Boolean? = null

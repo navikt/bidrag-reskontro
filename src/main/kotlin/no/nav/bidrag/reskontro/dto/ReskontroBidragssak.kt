@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import java.math.BigInteger
 
 @Schema(
-    name = "Saksinformasjon",
+    name = "Bidragssak",
     description = "Inneholder informasjon om bidragssaken fra skatt"
 )
 data class ReskontroBidragssak(
@@ -12,7 +12,7 @@ data class ReskontroBidragssak(
     @field:Schema(
         description = "Identifikasjonen til bidragssaken."
     )
-    val bidragssaksnummer: Long,
+    val saksnummer: Long,
 
     @field:Schema(
         description = "Resterende gjeld til BM på fastsettelsesgebyret (G1)."

@@ -4,6 +4,8 @@ import no.nav.bidrag.domain.ident.PersonIdent
 import no.nav.bidrag.domain.tid.FomDato
 import no.nav.bidrag.domain.tid.TomDato
 import no.nav.bidrag.reskontro.consumer.SkattReskontroConsumer
+import no.nav.bidrag.reskontro.dto.InnkrevingssakPåPersonRequest
+import no.nav.bidrag.reskontro.dto.InnkrevingssakPåSaksnummerRequest
 import no.nav.bidrag.reskontro.dto.ReskontroBidragssak
 import no.nav.bidrag.reskontro.dto.ReskontroBidragssakMedSkyldner
 import no.nav.bidrag.reskontro.dto.ReskontroConsumerOutput
@@ -17,12 +19,12 @@ import java.time.LocalDate
 @Service
 class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsumer) {
 
-    fun hentInnkrevingssakPåBidragssak(bidragssaksnummer: Long): ReskontroBidragssak {
-        val innkrevingssakResponse = skattReskontroConsumer.hentInnkrevningssakerPåBidragssak(bidragssaksnummer)
+    fun hentInnkrevingssakPåSak(saksnummer: InnkrevingssakPåSaksnummerRequest): ReskontroBidragssak {
+        val innkrevingssakResponse = skattReskontroConsumer.hentInnkrevningssakerPåSak(saksnummer.saksnummer)
         val innkrevingssak = validerOutput(innkrevingssakResponse)
 
         return ReskontroBidragssak(
-            bidragssaksnummer = innkrevingssak.bidragssak.bidragssaksnummer,
+            saksnummer = innkrevingssak.bidragssak.bidragssaksnummer,
             bmGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bmGjeldFastsettelsesgebyr,
             bpGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bpGjeldFastsettelsesgebyr,
             bmGjeldRest = innkrevingssak.bidragssak.bmGjeldRest,
@@ -41,8 +43,8 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
         )
     }
 
-    fun hentInnkrevingssakPåPerson(personIdent: PersonIdent): ReskontroBidragssakMedSkyldner {
-        val innkrevingssakResponse = skattReskontroConsumer.hentInnkrevningssakerPåPerson(personIdent)
+    fun hentInnkrevingssakPåPerson(personIdent: InnkrevingssakPåPersonRequest): ReskontroBidragssakMedSkyldner {
+        val innkrevingssakResponse = skattReskontroConsumer.hentInnkrevningssakerPåPerson(personIdent.personIdent)
         val innkrevingssak = validerOutput(innkrevingssakResponse)
 
         return ReskontroBidragssakMedSkyldner(
@@ -52,7 +54,7 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
                 gjeldIlagtGebyr = innkrevingssak.skyldner.gjeldIlagtGebyr
             ),
             bidragssak = ReskontroBidragssak(
-                bidragssaksnummer = innkrevingssak.bidragssak.bidragssaksnummer,
+                saksnummer = innkrevingssak.bidragssak.bidragssaksnummer,
                 bmGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bmGjeldFastsettelsesgebyr,
                 bpGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bpGjeldFastsettelsesgebyr,
                 bmGjeldRest = innkrevingssak.bidragssak.bmGjeldRest,
@@ -72,12 +74,12 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
     }
 
     fun hentTransaksjonerPåBidragssak(
-        bidragssaksnummer: Long,
+        saksnummer: Long,
         fomDato: FomDato,
         tomDato: TomDato,
         antallTransaksjoner: Int?
     ): String {
-        val transaksjonerResponse = skattReskontroConsumer.hentTransaksjonerPåBidragssak(bidragssaksnummer, fomDato, tomDato, antallTransaksjoner)
+        val transaksjonerResponse = skattReskontroConsumer.hentTransaksjonerPåBidragssak(saksnummer, fomDato, tomDato, antallTransaksjoner)
         return "transaksjoner"
     }
 
@@ -101,8 +103,8 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
         return "informasjonOmInnkrevingssaken"
     }
 
-    fun endreRmForSak(bidragssaksnummer: Long, barn: PersonIdent, nyRm: PersonIdent): String {
-        val endreRmResponse = skattReskontroConsumer.endreRmForSak(bidragssaksnummer, barn, nyRm)
+    fun endreRmForSak(saksnummer: Long, barn: PersonIdent, nyRm: PersonIdent): String {
+        val endreRmResponse = skattReskontroConsumer.endreRmForSak(saksnummer, barn, nyRm)
         return "endreRM"
     }
 

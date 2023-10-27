@@ -29,11 +29,11 @@ class SkattReskontroConsumer(
         const val ENDRE_RM_PATH = "/BisysResk/endrerm"
     }
 
-    fun hentInnkrevningssakerPåBidragssak(bidragssaksnummer: Long): ResponseEntity<ReskontroConsumerOutput> {
-        SECURE_LOGGER.info("Kaller hent bidragssak for sak: $bidragssaksnummer")
+    fun hentInnkrevningssakerPåSak(saksnummer: Long): ResponseEntity<ReskontroConsumerOutput> {
+        SECURE_LOGGER.info("Kaller hent bidragssak for sak: $saksnummer")
         return restTemplate.postForEntity(
             URI.create(skattUrl + BIDRAGSSAK_PATH),
-            ReskontroConsumerInput(aksjonskode = 1, bidragssaksnummer = bidragssaksnummer),
+            ReskontroConsumerInput(aksjonskode = 1, bidragssaksnummer = saksnummer),
             ReskontroConsumerOutput::class.java
         )
     }
@@ -48,17 +48,17 @@ class SkattReskontroConsumer(
     }
 
     fun hentTransaksjonerPåBidragssak(
-        bidragssaksnummer: Long,
+        saksnummer: Long,
         fomDato: FomDato,
         tomDato: TomDato,
         antallTransaksjoner: Int?
     ): ResponseEntity<ReskontroConsumerOutput> {
-        SECURE_LOGGER.info("Kaller hent transaksjoner for sak: $bidragssaksnummer")
+        SECURE_LOGGER.info("Kaller hent transaksjoner for sak: $saksnummer")
         return restTemplate.postForEntity(
             URI.create(skattUrl + TRANSAKSJONER_PATH),
             ReskontroConsumerInput(
                 aksjonskode = 3,
-                bidragssaksnummer = bidragssaksnummer,
+                bidragssaksnummer = saksnummer,
                 datoFom = fomDato.toString(),
                 datoTom = tomDato.toString(),
                 maxAntallTransaksjoner = antallTransaksjoner
@@ -115,18 +115,18 @@ class SkattReskontroConsumer(
     }
 
     fun endreRmForSak(
-        bidragssaksnummer: Long,
+        saksnummer: Long,
         barn: PersonIdent,
         nyRm: PersonIdent
     ): ResponseEntity<ReskontroConsumerOutput> {
-        SECURE_LOGGER.info("Kaller endre RM for sak. NyRM: ${nyRm.verdi} i sak $bidragssaksnummer med barn: ${barn.verdi}")
+        SECURE_LOGGER.info("Kaller endre RM for sak. NyRM: ${nyRm.verdi} i sak $saksnummer med barn: ${barn.verdi}")
         return restTemplate.exchange(
             URI.create(skattUrl + ENDRE_RM_PATH),
             HttpMethod.PATCH,
             HttpEntity<ReskontroConsumerInput>(
                 ReskontroConsumerInput(
                     aksjonskode = 8,
-                    bidragssaksnummer = bidragssaksnummer,
+                    bidragssaksnummer = saksnummer,
                     fodselsnrGjelder = barn.verdi,
                     fodselsnrNy = nyRm.verdi
                 )
