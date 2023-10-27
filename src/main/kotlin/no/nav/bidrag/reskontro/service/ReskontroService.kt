@@ -1,16 +1,21 @@
 package no.nav.bidrag.reskontro.service
 
+import no.nav.bidrag.domain.enums.regnskap.Transaksjonskode
 import no.nav.bidrag.domain.ident.PersonIdent
+import no.nav.bidrag.domain.string.Saksnummer
+import no.nav.bidrag.domain.string.Valutakode
 import no.nav.bidrag.domain.tid.FomDato
 import no.nav.bidrag.domain.tid.TomDato
 import no.nav.bidrag.reskontro.consumer.SkattReskontroConsumer
+import no.nav.bidrag.reskontro.dto.consumer.ReskontroConsumerOutput
 import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåPersonRequest
 import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåSaksnummerRequest
-import no.nav.bidrag.reskontro.dto.response.Bidragssak
-import no.nav.bidrag.reskontro.dto.response.BidragssakMedSkyldner
-import no.nav.bidrag.reskontro.dto.consumer.ReskontroConsumerOutput
-import no.nav.bidrag.reskontro.dto.response.SaksinformasjonBarn
-import no.nav.bidrag.reskontro.dto.response.Skyldner
+import no.nav.bidrag.reskontro.dto.response.innkrevingssak.Bidragssak
+import no.nav.bidrag.reskontro.dto.response.innkrevingssak.BidragssakMedSkyldner
+import no.nav.bidrag.reskontro.dto.response.innkrevingssak.SaksinformasjonBarn
+import no.nav.bidrag.reskontro.dto.response.innkrevingssak.Skyldner
+import no.nav.bidrag.reskontro.dto.response.transaksjoner.Transaksjon
+import no.nav.bidrag.reskontro.dto.response.transaksjoner.Transaksjoner
 import no.nav.bidrag.reskontro.exceptions.IngenDataFraSkattException
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -19,12 +24,12 @@ import java.time.LocalDate
 @Service
 class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsumer) {
 
-    fun hentInnkrevingssakPåSak(saksnummer: InnkrevingssakPåSaksnummerRequest): Bidragssak {
-        val innkrevingssakResponse = skattReskontroConsumer.hentInnkrevningssakerPåSak(saksnummer.saksnummer)
+    fun hentInnkrevingssakPåSak(saksnummerRequest: InnkrevingssakPåSaksnummerRequest): Bidragssak {
+        val innkrevingssakResponse = skattReskontroConsumer.hentInnkrevningssakerPåSak(saksnummerRequest.saksnummer.verdi.toLong())
         val innkrevingssak = validerOutput(innkrevingssakResponse)
 
         return Bidragssak(
-            saksnummer = innkrevingssak.bidragssak.bidragssaksnummer,
+            saksnummer = Saksnummer(innkrevingssak.bidragssak.bidragssaksnummer.toString()),
             bmGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bmGjeldFastsettelsesgebyr,
             bpGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bpGjeldFastsettelsesgebyr,
             bmGjeldRest = innkrevingssak.bidragssak.bmGjeldRest,
@@ -54,7 +59,7 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
                 gjeldIlagtGebyr = innkrevingssak.skyldner.gjeldIlagtGebyr
             ),
             bidragssak = Bidragssak(
-                saksnummer = innkrevingssak.bidragssak.bidragssaksnummer,
+                saksnummer = Saksnummer(innkrevingssak.bidragssak.bidragssaksnummer.toString()),
                 bmGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bmGjeldFastsettelsesgebyr,
                 bpGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bpGjeldFastsettelsesgebyr,
                 bmGjeldRest = innkrevingssak.bidragssak.bmGjeldRest,
@@ -74,18 +79,15 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
     }
 
     fun hentTransaksjonerPåBidragssak(
-        saksnummer: Long,
+        saksnummer: Saksnummer,
         fomDato: FomDato,
         tomDato: TomDato,
         antallTransaksjoner: Int?
-    ): String {
-        val transaksjonerResponse = skattReskontroConsumer.hentTransaksjonerPåBidragssak(saksnummer, fomDato, tomDato, antallTransaksjoner)
+    ): Transaksjoner {
+        val transaksjonerResponse =
+            skattReskontroConsumer.hentTransaksjonerPåBidragssak(saksnummer.verdi.toLong(), fomDato, tomDato, antallTransaksjoner)
         val transaksjoner = validerOutput(transaksjonerResponse)
-
-
-
-
-        return "transaksjoner"
+        return opprettTransaksjonerResponse(transaksjoner)
     }
 
     fun hentTransaksjonerPåPerson(
@@ -93,25 +95,53 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
         fomDato: FomDato,
         tomDato: TomDato,
         antallTransaksjoner: Int?
-    ): String {
+    ): Transaksjoner {
         val transaksjonerResponse = skattReskontroConsumer.hentTransaksjonerPåPerson(person, fomDato, tomDato, antallTransaksjoner)
-        return "transaksjoner"
+        val transaksjoner = validerOutput(transaksjonerResponse)
+        return opprettTransaksjonerResponse(transaksjoner)
     }
 
-    fun hentTransaksjonerPåTransaksjonsid(transaksjonsid: Long, fomDato: FomDato, tomDato: TomDato): String {
+    fun hentTransaksjonerPåTransaksjonsid(transaksjonsid: Long, fomDato: FomDato, tomDato: TomDato): Transaksjoner {
         val transaksjonerResponse = skattReskontroConsumer.hentTransaksjonerPåTransaksjonsId(transaksjonsid, fomDato, tomDato)
-        return "transaksjoner"
+        val transaksjoner = validerOutput(transaksjonerResponse)
+        return opprettTransaksjonerResponse(transaksjoner)
     }
 
     fun hentInformasjonOmInnkrevingssaken(person: PersonIdent): String {
         val innkrevingsinformasjonResponse = skattReskontroConsumer.hentInformasjonOmInnkrevingssaken(person)
+
+        //TODO
         return "informasjonOmInnkrevingssaken"
     }
 
-    fun endreRmForSak(saksnummer: Long, barn: PersonIdent, nyRm: PersonIdent): String {
-        val endreRmResponse = skattReskontroConsumer.endreRmForSak(saksnummer, barn, nyRm)
+    fun endreRmForSak(saksnummer: Saksnummer, barn: PersonIdent, nyRm: PersonIdent): String {
+        val endreRmResponse = skattReskontroConsumer.endreRmForSak(saksnummer.verdi.toLong(), barn, nyRm)
+
+        //TODO
         return "endreRM"
     }
+    private fun opprettTransaksjonerResponse(transaksjoner: ReskontroConsumerOutput) = Transaksjoner(
+        transaksjoner = transaksjoner.transaksjoner!!.map {
+            Transaksjon(
+                transaksjonsid = it.transaksjonsId,
+                transaksjonskode = Transaksjonskode.valueOf(it.kode!!),
+                beskrivelse = it.beskrivelse!!,
+                dato = LocalDate.parse(it.dato!!),
+                skyldner = PersonIdent(it.kildeFodselsOrgNr!!),
+                mottaker = PersonIdent(it.mottakerFodslesOrgNr!!),
+                beløp = it.opprinneligBeloep!!,
+                restBeløp = it.restBeloep!!,
+                beløpIOpprinneligValuta = it.valutaOpprinneligBeloep!!,
+                valutakode = Valutakode(it.valutakode!!),
+                saksnummer = Saksnummer(it.bidragssaksnummer.toString()),
+                fomDato = FomDato(LocalDate.parse(it.periodeSisteDatoFom!!)),
+                tomDato = TomDato(LocalDate.parse(it.periodeSisteDatoTom!!)),
+                barn = PersonIdent(it.barnFodselsnr!!),
+                delytelsesid = it.bidragsId!!,
+                søknadstype = it.soeknadsType
+            )
+        }
+    )
 
     /*
     Dette må gjøres siden det ikke returneres en korrekt HTTP statuskode i REST kallet mot Skatteetaten.

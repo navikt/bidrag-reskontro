@@ -1,7 +1,8 @@
-package no.nav.bidrag.reskontro.dto.response
+package no.nav.bidrag.reskontro.dto.response.innkrevingssak
 
 import io.swagger.v3.oas.annotations.media.Schema
-import java.math.BigInteger
+import no.nav.bidrag.domain.string.Saksnummer
+import java.math.BigDecimal
 
 @Schema(
     name = "Bidragssak",
@@ -12,22 +13,22 @@ data class Bidragssak(
     @field:Schema(
         description = "Identifikasjonen til bidragssaken."
     )
-    val saksnummer: Long,
+    val saksnummer: Saksnummer,
 
     @field:Schema(
         description = "Resterende gjeld til BM på fastsettelsesgebyret (G1)."
     )
-    val bmGjeldFastsettelsesgebyr: BigInteger,
+    val bmGjeldFastsettelsesgebyr: BigDecimal,
 
     @field:Schema(
         description = "Resterende gjeld til BM. Gjelder for H1 - Tilbakekreving."
     )
-    val bmGjeldRest: BigInteger,
+    val bmGjeldRest: BigDecimal,
 
     @field:Schema(
         description = "Resterende gjeld til BP på fastsettelsesgebyret (G1)."
     )
-    val bpGjeldFastsettelsesgebyr: BigInteger,
+    val bpGjeldFastsettelsesgebyr: BigDecimal,
 
     @field:Schema(
         description = "Liste over alle barn i bidragssaken med tilhørende innkrevingsinformasjon."
