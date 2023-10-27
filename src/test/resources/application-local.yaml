@@ -1,7 +1,15 @@
-PERSON_SCOPE: dev-fss.bidrag.bidrag-person-feature
-BIDRAG_PERSON_URL: https://bidrag-person-feature.dev.adeo.no
+SKATT_URL: https://bidrag-stubs.intern.dev.nav.no/ekstern/skatt
+SKATT_SCOPE: dev-gcp.bidrag.bidrag-stubs
 AZURE_APP_TENANT_ID: 966ac572-f5b7-4bbe-aa88-c76419c0f851
-AZURE_APP_CLIENT_ID: <app_client_id>
-AZURE_APP_CLIENT_SECRET: unset
+AZURE_APP_CLIENT_ID:
+AZURE_APP_CLIENT_SECRET:
 server.port: 8999
 NAIS_APP_NAME: bidrag-reskontro
+
+maskinporten:
+  tokenUrl: https://test.maskinporten.no/token
+  audience: https://test.maskinporten.no/
+  clientId: <MASKINPORTEN_CLIENT_ID>
+  scope: <MASKINPORTEN_SCOPES>
+  privateKey: <MASKINPORTEN_CLIENT_JWK>
+  validInSeconds: 120 #120 er maks antall sekunder et maskinporten Jwt-token kan være gyldig.
