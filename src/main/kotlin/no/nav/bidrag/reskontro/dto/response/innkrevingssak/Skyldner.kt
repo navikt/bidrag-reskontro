@@ -1,8 +1,8 @@
-package no.nav.bidrag.reskontro.dto.response
+package no.nav.bidrag.reskontro.dto.response.innkrevingssak
 
 import io.swagger.v3.oas.annotations.media.Schema
 import no.nav.bidrag.domain.ident.PersonIdent
-import java.math.BigInteger
+import java.math.BigDecimal
 
 @Schema(
     name = "Skyldner",
@@ -19,16 +19,16 @@ data class Skyldner(
         description = "Summen av det løpende bidraget på skyldner. " +
             "Beregnes ikke for innkrevningssak på person, kun for informasjon om innkrevingssaken."
     )
-    val sumLøpendeBidrag: BigInteger? = null,
+    val sumLøpendeBidrag: BigDecimal? = null,
 
     @field:Schema(
         description = "Sum av beløpsfelt fra innbetalinger i historikk avhengig av fordelingsstatus."
     )
-    val innbetaltBeløpUfordelt: BigInteger,
+    val innbetaltBeløpUfordelt: BigDecimal,
 
     @field:Schema(
         description = "Sum av saldo gebyrer på sak."
     )
-    val gjeldIlagtGebyr: BigInteger
+    val gjeldIlagtGebyr: BigDecimal
 
 )

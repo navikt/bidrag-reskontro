@@ -1,20 +1,20 @@
 package no.nav.bidrag.reskontro.dto.request
 
 import io.swagger.v3.oas.annotations.media.Schema
-import no.nav.bidrag.domain.ident.PersonIdent
+import no.nav.bidrag.domain.string.Saksnummer
 import no.nav.bidrag.domain.tid.FomDato
 import no.nav.bidrag.domain.tid.TomDato
 
 @Schema(
-    name = "Transaksjoner på person",
-    description = "Request for å alle transaksjoner/motposter knyttet til etterspurt person."
+    name = "Transaksjoner på saksnummer",
+    description = "Request for å alle transaksjoner/motposter knyttet til etterspurt saksnummer."
 )
-data class TransaksjonerPåPersonRequest(
+data class TransaksjonerPåSaksnummerRequest(
 
     @field:Schema(
-        description = "Ident til person."
+        description = "Saksnummer for bidragssaken."
     )
-    val person: PersonIdent,
+    val saksnummer: Saksnummer,
 
     @field:Schema(
         description = "Dato transaksjonene skal være fra."

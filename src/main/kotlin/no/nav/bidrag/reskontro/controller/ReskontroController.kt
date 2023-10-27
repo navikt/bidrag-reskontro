@@ -6,14 +6,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import no.nav.bidrag.domain.ident.PersonIdent
-import no.nav.bidrag.reskontro.dto.response.EndreRmForSak
+import no.nav.bidrag.reskontro.dto.response.innkrevingssak.EndreRmForSak
 import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåPersonRequest
 import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåSaksnummerRequest
-import no.nav.bidrag.reskontro.dto.response.Bidragssak
-import no.nav.bidrag.reskontro.dto.response.BidragssakMedSkyldner
-import no.nav.bidrag.reskontro.dto.request.TransaksjonerPåBidragssakRequest
+import no.nav.bidrag.reskontro.dto.response.innkrevingssak.Bidragssak
+import no.nav.bidrag.reskontro.dto.response.innkrevingssak.BidragssakMedSkyldner
+import no.nav.bidrag.reskontro.dto.request.TransaksjonerPåSaksnummerRequest
 import no.nav.bidrag.reskontro.dto.request.TransaksjonerPåPersonRequest
 import no.nav.bidrag.reskontro.dto.request.TransaksjonerPåTransaksjonsidRequest
+import no.nav.bidrag.reskontro.dto.response.transaksjoner.Transaksjoner
 import no.nav.bidrag.reskontro.service.ReskontroService
 import no.nav.security.token.support.core.api.Protected
 import org.springframework.web.bind.annotation.PatchMapping
@@ -71,7 +72,7 @@ class ReskontroController(val reskontroService: ReskontroService) {
             ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentTransaksjonerPåBidragssak(@RequestBody transaksjonerPåBidragssak: TransaksjonerPåBidragssakRequest): String {
+    fun hentTransaksjonerPåBidragssak(@RequestBody transaksjonerPåBidragssak: TransaksjonerPåSaksnummerRequest): Transaksjoner {
         return reskontroService.hentTransaksjonerPåBidragssak(
             transaksjonerPåBidragssak.saksnummer,
             transaksjonerPåBidragssak.fomDato,
@@ -93,7 +94,7 @@ class ReskontroController(val reskontroService: ReskontroService) {
             ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentTransaksjonerPåPerson(@RequestBody transaksjonerPåPerson: TransaksjonerPåPersonRequest): String {
+    fun hentTransaksjonerPåPerson(@RequestBody transaksjonerPåPerson: TransaksjonerPåPersonRequest): Transaksjoner {
         return reskontroService.hentTransaksjonerPåPerson(
             transaksjonerPåPerson.person,
             transaksjonerPåPerson.fomDato,
@@ -115,7 +116,7 @@ class ReskontroController(val reskontroService: ReskontroService) {
             ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentTransaksjonerPåTransaksjonsid(@RequestBody transaksjonerPåTransaksjonsid: TransaksjonerPåTransaksjonsidRequest): String {
+    fun hentTransaksjonerPåTransaksjonsid(@RequestBody transaksjonerPåTransaksjonsid: TransaksjonerPåTransaksjonsidRequest): Transaksjoner {
         return reskontroService.hentTransaksjonerPåTransaksjonsid(
             transaksjonerPåTransaksjonsid.transaksjonsid,
             transaksjonerPåTransaksjonsid.fomDato,
