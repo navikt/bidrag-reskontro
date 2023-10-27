@@ -1,18 +1,19 @@
 package no.nav.bidrag.reskontro.controller
 
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import no.nav.bidrag.domain.ident.PersonIdent
-import no.nav.bidrag.reskontro.dto.EndreRmForSak
-import no.nav.bidrag.reskontro.dto.InnkrevingssakPåPersonRequest
-import no.nav.bidrag.reskontro.dto.InnkrevingssakPåSaksnummerRequest
-import no.nav.bidrag.reskontro.dto.ReskontroBidragssak
-import no.nav.bidrag.reskontro.dto.ReskontroBidragssakMedSkyldner
-import no.nav.bidrag.reskontro.dto.TransaksjonerPåBidragssak
-import no.nav.bidrag.reskontro.dto.TransaksjonerPåPerson
-import no.nav.bidrag.reskontro.dto.TransaksjonerPåTransaksjonsid
+import no.nav.bidrag.reskontro.dto.response.EndreRmForSak
+import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåPersonRequest
+import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåSaksnummerRequest
+import no.nav.bidrag.reskontro.dto.response.Bidragssak
+import no.nav.bidrag.reskontro.dto.response.BidragssakMedSkyldner
+import no.nav.bidrag.reskontro.dto.request.TransaksjonerPåBidragssakRequest
+import no.nav.bidrag.reskontro.dto.request.TransaksjonerPåPersonRequest
+import no.nav.bidrag.reskontro.dto.request.TransaksjonerPåTransaksjonsidRequest
 import no.nav.bidrag.reskontro.service.ReskontroService
 import no.nav.security.token.support.core.api.Protected
 import org.springframework.web.bind.annotation.PatchMapping
@@ -32,11 +33,11 @@ class ReskontroController(val reskontroService: ReskontroService) {
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Hentet saksinformasjon om bidragssaken"),
-            ApiResponse(responseCode = "400", description = "Feil i forespørselen"),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig")
+            ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentInnkrevingssakPåBidragssak(@RequestBody bidragssak: InnkrevingssakPåSaksnummerRequest): ReskontroBidragssak {
+    fun hentInnkrevingssakPåBidragssak(@RequestBody bidragssak: InnkrevingssakPåSaksnummerRequest): Bidragssak {
         return reskontroService.hentInnkrevingssakPåSak(bidragssak)
     }
 
@@ -48,11 +49,12 @@ class ReskontroController(val reskontroService: ReskontroService) {
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Hentet saksinformasjon om bidragssaker på personen"),
-            ApiResponse(responseCode = "400", description = "Feil i forespørselen"),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig")
+            ApiResponse(responseCode = "204", description = "Fant ingen data", content = [Content()]),
+            ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentInnkrevingssakPåBidragssak(@RequestBody personIdent: InnkrevingssakPåPersonRequest): ReskontroBidragssakMedSkyldner {
+    fun hentInnkrevingssakPåBidragssak(@RequestBody personIdent: InnkrevingssakPåPersonRequest): BidragssakMedSkyldner {
         return reskontroService.hentInnkrevingssakPåPerson(personIdent)
     }
 
@@ -64,11 +66,12 @@ class ReskontroController(val reskontroService: ReskontroService) {
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Hentet transaksjoner for bidragssaken"),
-            ApiResponse(responseCode = "400", description = "Feil i forespørselen"),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig")
+            ApiResponse(responseCode = "204", description = "Fant ingen data", content = [Content()]),
+            ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentTransaksjonerPåBidragssak(@RequestBody transaksjonerPåBidragssak: TransaksjonerPåBidragssak): String {
+    fun hentTransaksjonerPåBidragssak(@RequestBody transaksjonerPåBidragssak: TransaksjonerPåBidragssakRequest): String {
         return reskontroService.hentTransaksjonerPåBidragssak(
             transaksjonerPåBidragssak.saksnummer,
             transaksjonerPåBidragssak.fomDato,
@@ -85,11 +88,12 @@ class ReskontroController(val reskontroService: ReskontroService) {
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Hentet transaksjoner for person"),
-            ApiResponse(responseCode = "400", description = "Feil i forespørselen"),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig")
+            ApiResponse(responseCode = "204", description = "Fant ingen data", content = [Content()]),
+            ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentTransaksjonerPåPerson(@RequestBody transaksjonerPåPerson: TransaksjonerPåPerson): String {
+    fun hentTransaksjonerPåPerson(@RequestBody transaksjonerPåPerson: TransaksjonerPåPersonRequest): String {
         return reskontroService.hentTransaksjonerPåPerson(
             transaksjonerPåPerson.person,
             transaksjonerPåPerson.fomDato,
@@ -106,11 +110,12 @@ class ReskontroController(val reskontroService: ReskontroService) {
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Hentet transaksjoner på transaksjonsid"),
-            ApiResponse(responseCode = "400", description = "Feil i forespørselen"),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig")
+            ApiResponse(responseCode = "204", description = "Fant ingen data", content = [Content()]),
+            ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentTransaksjonerPåTransaksjonsid(@RequestBody transaksjonerPåTransaksjonsid: TransaksjonerPåTransaksjonsid): String {
+    fun hentTransaksjonerPåTransaksjonsid(@RequestBody transaksjonerPåTransaksjonsid: TransaksjonerPåTransaksjonsidRequest): String {
         return reskontroService.hentTransaksjonerPåTransaksjonsid(
             transaksjonerPåTransaksjonsid.transaksjonsid,
             transaksjonerPåTransaksjonsid.fomDato,
@@ -126,8 +131,9 @@ class ReskontroController(val reskontroService: ReskontroService) {
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Hentet informasjon om innkrevingssaken knyttet til person"),
-            ApiResponse(responseCode = "400", description = "Feil i forespørselen"),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig")
+            ApiResponse(responseCode = "204", description = "Fant ingen data", content = [Content()]),
+            ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
     fun hentInformasjonOmInnkrevingssaken(@RequestBody person: PersonIdent): String {
@@ -142,8 +148,8 @@ class ReskontroController(val reskontroService: ReskontroService) {
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Endret rm for sak"),
-            ApiResponse(responseCode = "400", description = "Feil i forespørselen"),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig")
+            ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
     fun endreRmForSak(@RequestBody endreRmForSak: EndreRmForSak): String {

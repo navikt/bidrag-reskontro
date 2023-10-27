@@ -1,4 +1,4 @@
-package no.nav.bidrag.reskontro.dto
+package no.nav.bidrag.reskontro.dto.request
 
 import io.swagger.v3.oas.annotations.media.Schema
 import no.nav.bidrag.domain.ident.PersonIdent

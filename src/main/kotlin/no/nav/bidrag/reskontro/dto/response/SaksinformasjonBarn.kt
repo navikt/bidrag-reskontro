@@ -1,4 +1,4 @@
-package no.nav.bidrag.reskontro.dto
+package no.nav.bidrag.reskontro.dto.response
 
 import io.swagger.v3.oas.annotations.media.Schema
 import no.nav.bidrag.domain.ident.PersonIdent
@@ -10,7 +10,7 @@ import java.math.BigInteger
     name = "SaksinformasjonBarn",
     description = "Liste over alle barn i bidragssaken med tilhørende innkrevingsinformasjon."
 )
-data class ReskontroSaksinformasjonBarn(
+data class SaksinformasjonBarn(
 
     @field:Schema(
         description = "Ident til barnet."

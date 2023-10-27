@@ -5,8 +5,8 @@ import no.nav.bidrag.domain.ident.PersonIdent
 import no.nav.bidrag.domain.tid.FomDato
 import no.nav.bidrag.domain.tid.TomDato
 import no.nav.bidrag.reskontro.SECURE_LOGGER
-import no.nav.bidrag.reskontro.dto.ReskontroConsumerInput
-import no.nav.bidrag.reskontro.dto.ReskontroConsumerOutput
+import no.nav.bidrag.reskontro.dto.consumer.ReskontroConsumerInput
+import no.nav.bidrag.reskontro.dto.consumer.ReskontroConsumerOutput
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity

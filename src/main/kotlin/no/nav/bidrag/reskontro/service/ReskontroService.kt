@@ -4,13 +4,13 @@ import no.nav.bidrag.domain.ident.PersonIdent
 import no.nav.bidrag.domain.tid.FomDato
 import no.nav.bidrag.domain.tid.TomDato
 import no.nav.bidrag.reskontro.consumer.SkattReskontroConsumer
-import no.nav.bidrag.reskontro.dto.InnkrevingssakPåPersonRequest
-import no.nav.bidrag.reskontro.dto.InnkrevingssakPåSaksnummerRequest
-import no.nav.bidrag.reskontro.dto.ReskontroBidragssak
-import no.nav.bidrag.reskontro.dto.ReskontroBidragssakMedSkyldner
-import no.nav.bidrag.reskontro.dto.ReskontroConsumerOutput
-import no.nav.bidrag.reskontro.dto.ReskontroSaksinformasjonBarn
-import no.nav.bidrag.reskontro.dto.ReskontroSkyldner
+import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåPersonRequest
+import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåSaksnummerRequest
+import no.nav.bidrag.reskontro.dto.response.Bidragssak
+import no.nav.bidrag.reskontro.dto.response.BidragssakMedSkyldner
+import no.nav.bidrag.reskontro.dto.consumer.ReskontroConsumerOutput
+import no.nav.bidrag.reskontro.dto.response.SaksinformasjonBarn
+import no.nav.bidrag.reskontro.dto.response.Skyldner
 import no.nav.bidrag.reskontro.exceptions.IngenDataFraSkattException
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -19,17 +19,17 @@ import java.time.LocalDate
 @Service
 class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsumer) {
 
-    fun hentInnkrevingssakPåSak(saksnummer: InnkrevingssakPåSaksnummerRequest): ReskontroBidragssak {
+    fun hentInnkrevingssakPåSak(saksnummer: InnkrevingssakPåSaksnummerRequest): Bidragssak {
         val innkrevingssakResponse = skattReskontroConsumer.hentInnkrevningssakerPåSak(saksnummer.saksnummer)
         val innkrevingssak = validerOutput(innkrevingssakResponse)
 
-        return ReskontroBidragssak(
+        return Bidragssak(
             saksnummer = innkrevingssak.bidragssak.bidragssaksnummer,
             bmGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bmGjeldFastsettelsesgebyr,
             bpGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bpGjeldFastsettelsesgebyr,
             bmGjeldRest = innkrevingssak.bidragssak.bmGjeldRest,
             barn = innkrevingssak.bidragssak.perBarnISak?.map {
-                ReskontroSaksinformasjonBarn(
+                SaksinformasjonBarn(
                     personIdent = PersonIdent(it.fodselsnummer!!),
                     restGjeldOffentlig = it.restGjeldOffentlig!!,
                     restGjeldPrivat = it.restGjeldPrivat!!,
@@ -43,23 +43,23 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
         )
     }
 
-    fun hentInnkrevingssakPåPerson(personIdent: InnkrevingssakPåPersonRequest): ReskontroBidragssakMedSkyldner {
+    fun hentInnkrevingssakPåPerson(personIdent: InnkrevingssakPåPersonRequest): BidragssakMedSkyldner {
         val innkrevingssakResponse = skattReskontroConsumer.hentInnkrevningssakerPåPerson(personIdent.personIdent)
         val innkrevingssak = validerOutput(innkrevingssakResponse)
 
-        return ReskontroBidragssakMedSkyldner(
-            skyldner = ReskontroSkyldner(
+        return BidragssakMedSkyldner(
+            skyldner = Skyldner(
                 personIdent = PersonIdent(innkrevingssak.skyldner.fodselsOrgnr!!),
                 innbetaltBeløpUfordelt = innkrevingssak.skyldner.innbetBelopUfordelt,
                 gjeldIlagtGebyr = innkrevingssak.skyldner.gjeldIlagtGebyr
             ),
-            bidragssak = ReskontroBidragssak(
+            bidragssak = Bidragssak(
                 saksnummer = innkrevingssak.bidragssak.bidragssaksnummer,
                 bmGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bmGjeldFastsettelsesgebyr,
                 bpGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bpGjeldFastsettelsesgebyr,
                 bmGjeldRest = innkrevingssak.bidragssak.bmGjeldRest,
                 barn = innkrevingssak.bidragssak.perBarnISak?.map {
-                    ReskontroSaksinformasjonBarn(
+                    SaksinformasjonBarn(
                         personIdent = PersonIdent(it.fodselsnummer!!),
                         restGjeldOffentlig = it.restGjeldOffentlig!!,
                         restGjeldPrivat = it.restGjeldPrivat!!,
@@ -80,6 +80,11 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
         antallTransaksjoner: Int?
     ): String {
         val transaksjonerResponse = skattReskontroConsumer.hentTransaksjonerPåBidragssak(saksnummer, fomDato, tomDato, antallTransaksjoner)
+        val transaksjoner = validerOutput(transaksjonerResponse)
+
+
+
+
         return "transaksjoner"
     }
 
