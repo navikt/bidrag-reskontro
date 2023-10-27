@@ -2,8 +2,8 @@ package no.nav.bidrag.reskontro.dto
 
 import java.math.BigInteger
 
-data class Output(
-    val innParametre: Input,
+data class ReskontroConsumerOutput(
+    val innParametre: ReskontroConsumerInput,
     val skyldner: Skyldner,
     val bidragssak: Bidragssak,
     val transaksjoner: List<Transaksjon>? = null,

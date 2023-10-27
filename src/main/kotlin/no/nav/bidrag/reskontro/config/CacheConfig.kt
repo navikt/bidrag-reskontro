@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Profile
 @EnableUserCache
 class CacheConfig {
     companion object {
-        const val PERSON_CACHE = "PERSON_CACHE" //TODO
+        const val PERSON_CACHE = "PERSON_CACHE" // TODO
     }
 
     @Bean

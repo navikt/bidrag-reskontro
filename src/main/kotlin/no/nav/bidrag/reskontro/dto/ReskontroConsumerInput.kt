@@ -1,6 +1,6 @@
 package no.nav.bidrag.reskontro.dto
 
-data class Input(
+data class ReskontroConsumerInput(
     val aksjonskode: Int,
     val bidragssaksnummer: Long? = null,
     val fodselsOrgnr: String? = null,

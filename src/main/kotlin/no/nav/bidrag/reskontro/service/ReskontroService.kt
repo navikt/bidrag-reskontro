@@ -4,9 +4,9 @@ import no.nav.bidrag.domain.ident.PersonIdent
 import no.nav.bidrag.domain.tid.FomDato
 import no.nav.bidrag.domain.tid.TomDato
 import no.nav.bidrag.reskontro.consumer.SkattReskontroConsumer
-import no.nav.bidrag.reskontro.dto.Output
 import no.nav.bidrag.reskontro.dto.ReskontroBidragssak
 import no.nav.bidrag.reskontro.dto.ReskontroBidragssakMedSkyldner
+import no.nav.bidrag.reskontro.dto.ReskontroConsumerOutput
 import no.nav.bidrag.reskontro.dto.ReskontroSaksinformasjonBarn
 import no.nav.bidrag.reskontro.dto.ReskontroSkyldner
 import no.nav.bidrag.reskontro.exceptions.IngenDataFraSkattException
@@ -16,7 +16,6 @@ import java.time.LocalDate
 
 @Service
 class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsumer) {
-
 
     fun hentInnkrevingssakPåBidragssak(bidragssaksnummer: Long): ReskontroBidragssak {
         val innkrevingssakResponse = skattReskontroConsumer.hentInnkrevningssakerPåBidragssak(bidragssaksnummer)
@@ -116,19 +115,19 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
         -2 = Ugyldig aksjonskode - Aksjonskoden er satt individuelt for hvert endepunkt på vår side, burde ikke oppstå.
         -3 = Ingen data funnet - Tilsvarer 204 No Content.
      */
-    private fun validerOutput(outputResponse: ResponseEntity<Output>): Output {
-        if (outputResponse.body == null) {
+    private fun validerOutput(reskontroConsumerOutputResponse: ResponseEntity<ReskontroConsumerOutput>): ReskontroConsumerOutput {
+        if (reskontroConsumerOutputResponse.body == null) {
             error("Det mangler body i responsen fra Skatt!")
-        } else if (outputResponse.body!!.retur == null) {
+        } else if (reskontroConsumerOutputResponse.body!!.retur == null) {
             error("Responsekoden mangler i responsen fra Skatt!")
         }
 
-        when (outputResponse.body!!.retur!!.kode) {
-            0 -> return outputResponse.body!!
-            -1 -> error("Kallet mot skatt feilet med feilmelding: ${outputResponse.body!!.retur!!.beskrivelse}")
+        when (reskontroConsumerOutputResponse.body!!.retur!!.kode) {
+            0 -> return reskontroConsumerOutputResponse.body!!
+            -1 -> error("Kallet mot skatt feilet med feilmelding: ${reskontroConsumerOutputResponse.body!!.retur!!.beskrivelse}")
             -2 -> error("Kallet mot skatt hadde ugyldig aksjonskode! Dette er ikke basert på innput og må rettes i koden/hos skatt.")
             -3 -> throw IngenDataFraSkattException("Skatt svarte med ingen data.")
-            else -> error("Kallet mot skatt returnerte ukjent returnkode ${outputResponse.body!!.retur!!.kode}")
+            else -> error("Kallet mot skatt returnerte ukjent returnkode ${reskontroConsumerOutputResponse.body!!.retur!!.kode}")
         }
     }
 }

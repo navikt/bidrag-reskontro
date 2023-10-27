@@ -32,5 +32,5 @@ data class ReskontroBidragssak(
     @field:Schema(
         description = "Liste over alle barn i bidragssaken med tilhørende innkrevingsinformasjon."
     )
-    val barn: List<ReskontroSaksinformasjonBarn>,
+    val barn: List<ReskontroSaksinformasjonBarn>
 )
