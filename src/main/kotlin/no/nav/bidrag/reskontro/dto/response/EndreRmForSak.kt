@@ -1,4 +1,4 @@
-package no.nav.bidrag.reskontro.dto
+package no.nav.bidrag.reskontro.dto.response
 
 import no.nav.bidrag.domain.ident.PersonIdent
 

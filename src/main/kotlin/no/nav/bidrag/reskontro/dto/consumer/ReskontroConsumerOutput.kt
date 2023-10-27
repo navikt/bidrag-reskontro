@@ -1,4 +1,4 @@
-package no.nav.bidrag.reskontro.dto
+package no.nav.bidrag.reskontro.dto.consumer
 
 import java.math.BigInteger
 
