@@ -112,7 +112,7 @@ class ReskontroController(val reskontroService: ReskontroService) {
         return reskontroService.hentTransaksjonerPåTransaksjonsid(
             transaksjonerPåTransaksjonsid.transaksjonsid,
             transaksjonerPåTransaksjonsid.fomDato,
-            transaksjonerPåTransaksjonsid.tomDato,
+            transaksjonerPåTransaksjonsid.tomDato
         )
     }
 

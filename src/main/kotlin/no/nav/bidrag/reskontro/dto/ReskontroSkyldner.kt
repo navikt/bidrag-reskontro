@@ -8,7 +8,7 @@ import java.math.BigInteger
     name = "ReskontroSkyldner",
     description = "Informasjon om skyldner."
 )
-data class ReskontroSkyldner (
+data class ReskontroSkyldner(
 
     @field:Schema(
         description = "Identen til skyldner"
@@ -17,16 +17,14 @@ data class ReskontroSkyldner (
 
     @field:Schema(
         description = "Summen av det løpende bidraget på skyldner." +
-                "Beregnes ikke for innkrevningssak på person, kun for informasjon om innkrevingssaken."
+            "Beregnes ikke for innkrevningssak på person, kun for informasjon om innkrevingssaken."
     )
     val sumLøpendeBidrag: BigInteger? = null,
-
 
     @field:Schema(
         description = "Sum av beløpsfelt fra innbetalinger i historikk avhengig av fordelingsstatus."
     )
     val innbetaltBeløpUfordelt: BigInteger,
-
 
     @field:Schema(
         description = "Sum av saldo gebyrer på sak."

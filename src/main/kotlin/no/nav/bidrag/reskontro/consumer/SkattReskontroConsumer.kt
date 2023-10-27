@@ -5,8 +5,8 @@ import no.nav.bidrag.domain.ident.PersonIdent
 import no.nav.bidrag.domain.tid.FomDato
 import no.nav.bidrag.domain.tid.TomDato
 import no.nav.bidrag.reskontro.SECURE_LOGGER
-import no.nav.bidrag.reskontro.dto.Input
-import no.nav.bidrag.reskontro.dto.Output
+import no.nav.bidrag.reskontro.dto.ReskontroConsumerInput
+import no.nav.bidrag.reskontro.dto.ReskontroConsumerOutput
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -29,21 +29,21 @@ class SkattReskontroConsumer(
         const val ENDRE_RM_PATH = "/BisysResk/endrerm"
     }
 
-    fun hentInnkrevningssakerPåBidragssak(bidragssaksnummer: Long): ResponseEntity<Output> {
+    fun hentInnkrevningssakerPåBidragssak(bidragssaksnummer: Long): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent bidragssak for sak: $bidragssaksnummer")
         return restTemplate.postForEntity(
             URI.create(skattUrl + BIDRAGSSAK_PATH),
-            Input(aksjonskode = 1, bidragssaksnummer = bidragssaksnummer),
-            Output::class.java
+            ReskontroConsumerInput(aksjonskode = 1, bidragssaksnummer = bidragssaksnummer),
+            ReskontroConsumerOutput::class.java
         )
     }
 
-    fun hentInnkrevningssakerPåPerson(person: PersonIdent): ResponseEntity<Output> {
+    fun hentInnkrevningssakerPåPerson(person: PersonIdent): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent bidragssaker for person: ${person.verdi}")
         return restTemplate.postForEntity(
             URI.create(skattUrl + BIDRAGSSAK_PATH),
-            Input(aksjonskode = 2, fodselsOrgnr = person.verdi),
-            Output::class.java
+            ReskontroConsumerInput(aksjonskode = 2, fodselsOrgnr = person.verdi),
+            ReskontroConsumerOutput::class.java
         )
     }
 
@@ -52,20 +52,19 @@ class SkattReskontroConsumer(
         fomDato: FomDato,
         tomDato: TomDato,
         antallTransaksjoner: Int?
-    ): ResponseEntity<Output> {
+    ): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent transaksjoner for sak: $bidragssaksnummer")
         return restTemplate.postForEntity(
             URI.create(skattUrl + TRANSAKSJONER_PATH),
-            Input(
+            ReskontroConsumerInput(
                 aksjonskode = 3,
                 bidragssaksnummer = bidragssaksnummer,
                 datoFom = fomDato.toString(),
                 datoTom = tomDato.toString(),
                 maxAntallTransaksjoner = antallTransaksjoner
             ),
-            Output::class.java
+            ReskontroConsumerOutput::class.java
         )
-
     }
 
     fun hentTransaksjonerPåPerson(
@@ -73,18 +72,18 @@ class SkattReskontroConsumer(
         fomDato: FomDato,
         tomDato: TomDato,
         antall: Int?
-    ): ResponseEntity<Output> {
+    ): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent transaksjoner for person: ${person.verdi}")
         return restTemplate.postForEntity(
             URI.create(skattUrl + TRANSAKSJONER_PATH),
-            Input(
+            ReskontroConsumerInput(
                 aksjonskode = 4,
                 fodselsOrgnr = person.verdi,
                 datoFom = fomDato.toString(),
                 datoTom = tomDato.toString(),
                 maxAntallTransaksjoner = antall
             ),
-            Output::class.java
+            ReskontroConsumerOutput::class.java
         )
     }
 
@@ -92,27 +91,26 @@ class SkattReskontroConsumer(
         transaksjonsid: Long,
         fomDato: FomDato,
         tomDato: TomDato
-    ): ResponseEntity<Output> {
+    ): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent transaksjoner for transaksjonsId: $transaksjonsid")
         return restTemplate.postForEntity(
             URI.create(skattUrl + TRANSAKSJONER_PATH),
-            Input(
+            ReskontroConsumerInput(
                 aksjonskode = 5,
                 transaksjonsId = transaksjonsid,
                 datoFom = fomDato.toString(),
                 datoTom = tomDato.toString()
             ),
-            Output::class.java
+            ReskontroConsumerOutput::class.java
         )
-
     }
 
-    fun hentInformasjonOmInnkrevingssaken(person: PersonIdent): ResponseEntity<Output> {
+    fun hentInformasjonOmInnkrevingssaken(person: PersonIdent): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent informasjonOmInnkrevingssaken for person: ${person.verdi}")
         return restTemplate.postForEntity(
             URI.create(skattUrl + INNKREVINGSSAK_PATH),
-            Input(aksjonskode = 6, fodselsOrgnr = person.verdi),
-            Output::class.java
+            ReskontroConsumerInput(aksjonskode = 6, fodselsOrgnr = person.verdi),
+            ReskontroConsumerOutput::class.java
         )
     }
 
@@ -120,20 +118,20 @@ class SkattReskontroConsumer(
         bidragssaksnummer: Long,
         barn: PersonIdent,
         nyRm: PersonIdent
-    ): ResponseEntity<Output> {
+    ): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller endre RM for sak. NyRM: ${nyRm.verdi} i sak $bidragssaksnummer med barn: ${barn.verdi}")
         return restTemplate.exchange(
             URI.create(skattUrl + ENDRE_RM_PATH),
             HttpMethod.PATCH,
-            HttpEntity<Input>(
-                Input(
+            HttpEntity<ReskontroConsumerInput>(
+                ReskontroConsumerInput(
                     aksjonskode = 8,
                     bidragssaksnummer = bidragssaksnummer,
                     fodselsnrGjelder = barn.verdi,
                     fodselsnrNy = nyRm.verdi
-                ),
+                )
             ),
-            Output::class.java
+            ReskontroConsumerOutput::class.java
         )
     }
 }
