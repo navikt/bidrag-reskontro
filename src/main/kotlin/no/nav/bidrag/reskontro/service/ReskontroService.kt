@@ -115,8 +115,8 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
         return opprettTransaksjonerResponse(transaksjoner)
     }
 
-    fun hentInformasjonOmInnkrevingssaken(person: PersonIdent): Innkrevingssaksinformasjon {
-        val innkrevingsinformasjonResponse = skattReskontroConsumer.hentInformasjonOmInnkrevingssaken(person)
+    fun hentInformasjonOmInnkrevingssaken(person: InnkrevingssakPåPersonRequest): Innkrevingssaksinformasjon {
+        val innkrevingsinformasjonResponse = skattReskontroConsumer.hentInformasjonOmInnkrevingssaken(person.personIdent)
         val innkrevingsinformasjon = validerOutput(innkrevingsinformasjonResponse)
         return Innkrevingssaksinformasjon(
             skyldnerinformasjon = Skyldnerinformasjon(
