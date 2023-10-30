@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
-import no.nav.bidrag.domain.ident.PersonIdent
 import no.nav.bidrag.reskontro.dto.response.innkrevingssak.EndreRmForSak
 import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåPersonRequest
 import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåSaksnummerRequest
@@ -138,7 +137,7 @@ class ReskontroController(val reskontroService: ReskontroService) {
             ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentInformasjonOmInnkrevingssaken(@RequestBody person: PersonIdent): Innkrevingssaksinformasjon {
+    fun hentInformasjonOmInnkrevingssaken(@RequestBody person: InnkrevingssakPåPersonRequest): Innkrevingssaksinformasjon {
         return reskontroService.hentInformasjonOmInnkrevingssaken(person)
     }
 
