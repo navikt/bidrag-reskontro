@@ -14,6 +14,7 @@ import no.nav.bidrag.reskontro.dto.response.innkrevingssak.BidragssakMedSkyldner
 import no.nav.bidrag.reskontro.dto.request.TransaksjonerPåSaksnummerRequest
 import no.nav.bidrag.reskontro.dto.request.TransaksjonerPåPersonRequest
 import no.nav.bidrag.reskontro.dto.request.TransaksjonerPåTransaksjonsidRequest
+import no.nav.bidrag.reskontro.dto.response.innkrevingssaksinformasjon.Innkrevingssaksinformasjon
 import no.nav.bidrag.reskontro.dto.response.transaksjoner.Transaksjoner
 import no.nav.bidrag.reskontro.service.ReskontroService
 import no.nav.security.token.support.core.api.Protected
@@ -137,7 +138,7 @@ class ReskontroController(val reskontroService: ReskontroService) {
             ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentInformasjonOmInnkrevingssaken(@RequestBody person: PersonIdent): String {
+    fun hentInformasjonOmInnkrevingssaken(@RequestBody person: PersonIdent): Innkrevingssaksinformasjon {
         return reskontroService.hentInformasjonOmInnkrevingssaken(person)
     }
 
@@ -153,7 +154,7 @@ class ReskontroController(val reskontroService: ReskontroService) {
             ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun endreRmForSak(@RequestBody endreRmForSak: EndreRmForSak): String {
-        return reskontroService.endreRmForSak(endreRmForSak.saksnummer, endreRmForSak.barn, endreRmForSak.nyRm)
+    fun endreRmForSak(@RequestBody endreRmForSak: EndreRmForSak) {
+        reskontroService.endreRmForSak(endreRmForSak.saksnummer, endreRmForSak.barn, endreRmForSak.nyRm)
     }
 }
