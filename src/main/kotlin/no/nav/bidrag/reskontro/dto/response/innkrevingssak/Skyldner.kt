@@ -16,12 +16,6 @@ data class Skyldner(
     val personIdent: PersonIdent,
 
     @field:Schema(
-        description = "Summen av det løpende bidraget på skyldner. " +
-            "Beregnes ikke for innkrevningssak på person, kun for informasjon om innkrevingssaken."
-    )
-    val sumLøpendeBidrag: BigDecimal? = null,
-
-    @field:Schema(
         description = "Sum av beløpsfelt fra innbetalinger i historikk avhengig av fordelingsstatus."
     )
     val innbetaltBeløpUfordelt: BigDecimal,
