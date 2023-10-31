@@ -88,29 +88,25 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
 
     fun hentTransaksjonerPåBidragssak(
         saksnummer: Saksnummer,
-        fomDato: FomDato,
-        tomDato: TomDato,
         antallTransaksjoner: Int?
     ): Transaksjoner {
         val transaksjonerResponse =
-            skattReskontroConsumer.hentTransaksjonerPåBidragssak(saksnummer.verdi.toLong(), fomDato, tomDato, antallTransaksjoner)
+            skattReskontroConsumer.hentTransaksjonerPåBidragssak(saksnummer.verdi.toLong(), antallTransaksjoner)
         val transaksjoner = validerOutput(transaksjonerResponse)
         return opprettTransaksjonerResponse(transaksjoner)
     }
 
     fun hentTransaksjonerPåPerson(
         person: PersonIdent,
-        fomDato: FomDato,
-        tomDato: TomDato,
         antallTransaksjoner: Int?
     ): Transaksjoner {
-        val transaksjonerResponse = skattReskontroConsumer.hentTransaksjonerPåPerson(person, fomDato, tomDato, antallTransaksjoner)
+        val transaksjonerResponse = skattReskontroConsumer.hentTransaksjonerPåPerson(person, antallTransaksjoner)
         val transaksjoner = validerOutput(transaksjonerResponse)
         return opprettTransaksjonerResponse(transaksjoner)
     }
 
-    fun hentTransaksjonerPåTransaksjonsid(transaksjonsid: Long, fomDato: FomDato, tomDato: TomDato): Transaksjoner {
-        val transaksjonerResponse = skattReskontroConsumer.hentTransaksjonerPåTransaksjonsId(transaksjonsid, fomDato, tomDato)
+    fun hentTransaksjonerPåTransaksjonsid(transaksjonsid: Long): Transaksjoner {
+        val transaksjonerResponse = skattReskontroConsumer.hentTransaksjonerPåTransaksjonsId(transaksjonsid)
         val transaksjoner = validerOutput(transaksjonerResponse)
         return opprettTransaksjonerResponse(transaksjoner)
     }

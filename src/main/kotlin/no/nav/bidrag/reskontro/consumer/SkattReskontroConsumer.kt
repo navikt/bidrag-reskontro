@@ -2,8 +2,6 @@ package no.nav.bidrag.reskontro.consumer
 
 import no.nav.bidrag.commons.web.client.AbstractRestClient
 import no.nav.bidrag.domain.ident.PersonIdent
-import no.nav.bidrag.domain.tid.FomDato
-import no.nav.bidrag.domain.tid.TomDato
 import no.nav.bidrag.reskontro.SECURE_LOGGER
 import no.nav.bidrag.reskontro.dto.consumer.ReskontroConsumerInput
 import no.nav.bidrag.reskontro.dto.consumer.ReskontroConsumerOutput
@@ -49,8 +47,6 @@ class SkattReskontroConsumer(
 
     fun hentTransaksjonerPåBidragssak(
         saksnummer: Long,
-        fomDato: FomDato,
-        tomDato: TomDato,
         antallTransaksjoner: Int?
     ): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent transaksjoner for sak: $saksnummer")
@@ -59,8 +55,8 @@ class SkattReskontroConsumer(
             ReskontroConsumerInput(
                 aksjonskode = 3,
                 bidragssaksnummer = saksnummer,
-                datoFom = fomDato.toString(),
-                datoTom = tomDato.toString(),
+                datoFom = "1900-01-01T00:00:00.000Z",
+                datoTom = "9999-01-01T00:00:00.000Z",
                 maxAntallTransaksjoner = antallTransaksjoner
             ),
             ReskontroConsumerOutput::class.java
@@ -69,8 +65,6 @@ class SkattReskontroConsumer(
 
     fun hentTransaksjonerPåPerson(
         person: PersonIdent,
-        fomDato: FomDato,
-        tomDato: TomDato,
         antall: Int?
     ): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent transaksjoner for person: ${person.verdi}")
@@ -79,8 +73,8 @@ class SkattReskontroConsumer(
             ReskontroConsumerInput(
                 aksjonskode = 4,
                 fodselsOrgnr = person.verdi,
-                datoFom = fomDato.toString(),
-                datoTom = tomDato.toString(),
+                datoFom = "1900-01-01T00:00:00.000Z",
+                datoTom = "9999-01-01T00:00:00.000Z",
                 maxAntallTransaksjoner = antall
             ),
             ReskontroConsumerOutput::class.java
@@ -88,9 +82,7 @@ class SkattReskontroConsumer(
     }
 
     fun hentTransaksjonerPåTransaksjonsId(
-        transaksjonsid: Long,
-        fomDato: FomDato,
-        tomDato: TomDato
+        transaksjonsid: Long
     ): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent transaksjoner for transaksjonsId: $transaksjonsid")
         return restTemplate.postForEntity(
@@ -98,8 +90,8 @@ class SkattReskontroConsumer(
             ReskontroConsumerInput(
                 aksjonskode = 5,
                 transaksjonsId = transaksjonsid,
-                datoFom = fomDato.toString(),
-                datoTom = tomDato.toString()
+                datoFom = "1900-01-01T00:00:00.000Z",
+                datoTom = "9999-01-01T00:00:00.000Z"
             ),
             ReskontroConsumerOutput::class.java
         )
