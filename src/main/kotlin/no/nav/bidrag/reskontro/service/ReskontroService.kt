@@ -10,8 +10,7 @@ import no.nav.bidrag.domain.tid.FomDato
 import no.nav.bidrag.domain.tid.TomDato
 import no.nav.bidrag.reskontro.consumer.SkattReskontroConsumer
 import no.nav.bidrag.reskontro.dto.consumer.ReskontroConsumerOutput
-import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåPersonRequest
-import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåSaksnummerRequest
+import no.nav.bidrag.reskontro.dto.request.SaksnummerRequest
 import no.nav.bidrag.reskontro.dto.response.innkrevingssak.Bidragssak
 import no.nav.bidrag.reskontro.dto.response.innkrevingssak.BidragssakMedSkyldner
 import no.nav.bidrag.reskontro.dto.response.innkrevingssak.SaksinformasjonBarn
@@ -24,6 +23,7 @@ import no.nav.bidrag.reskontro.dto.response.innkrevingssaksinformasjon.Skyldneri
 import no.nav.bidrag.reskontro.dto.response.transaksjoner.Transaksjon
 import no.nav.bidrag.reskontro.dto.response.transaksjoner.Transaksjoner
 import no.nav.bidrag.reskontro.exceptions.IngenDataFraSkattException
+import no.nav.bidrag.transport.person.PersonRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -32,7 +32,7 @@ import java.time.LocalDateTime
 @Service
 class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsumer) {
 
-    fun hentInnkrevingssakPåSak(saksnummerRequest: InnkrevingssakPåSaksnummerRequest): Bidragssak {
+    fun hentInnkrevingssakPåSak(saksnummerRequest: SaksnummerRequest): Bidragssak {
         val innkrevingssakResponse = skattReskontroConsumer.hentInnkrevningssakerPåSak(saksnummerRequest.saksnummer.verdi.toLong())
         val innkrevingssak = validerOutput(innkrevingssakResponse)
 
@@ -56,8 +56,8 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
         )
     }
 
-    fun hentInnkrevingssakPåPerson(personIdent: InnkrevingssakPåPersonRequest): BidragssakMedSkyldner {
-        val innkrevingssakResponse = skattReskontroConsumer.hentInnkrevningssakerPåPerson(personIdent.personIdent)
+    fun hentInnkrevingssakPåPerson(personRequest: PersonRequest): BidragssakMedSkyldner {
+        val innkrevingssakResponse = skattReskontroConsumer.hentInnkrevningssakerPåPerson(personRequest.ident)
         val innkrevingssak = validerOutput(innkrevingssakResponse)
 
         return BidragssakMedSkyldner(
@@ -86,21 +86,15 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
         )
     }
 
-    fun hentTransaksjonerPåBidragssak(
-        saksnummer: Saksnummer,
-        antallTransaksjoner: Int?
-    ): Transaksjoner {
+    fun hentTransaksjonerPåBidragssak(saksnummerRequest: SaksnummerRequest): Transaksjoner {
         val transaksjonerResponse =
-            skattReskontroConsumer.hentTransaksjonerPåBidragssak(saksnummer.verdi.toLong(), antallTransaksjoner)
+            skattReskontroConsumer.hentTransaksjonerPåBidragssak(saksnummerRequest.saksnummer.verdi.toLong())
         val transaksjoner = validerOutput(transaksjonerResponse)
         return opprettTransaksjonerResponse(transaksjoner)
     }
 
-    fun hentTransaksjonerPåPerson(
-        person: PersonIdent,
-        antallTransaksjoner: Int?
-    ): Transaksjoner {
-        val transaksjonerResponse = skattReskontroConsumer.hentTransaksjonerPåPerson(person, antallTransaksjoner)
+    fun hentTransaksjonerPåPerson(personRequest: PersonRequest): Transaksjoner {
+        val transaksjonerResponse = skattReskontroConsumer.hentTransaksjonerPåPerson(personRequest.ident)
         val transaksjoner = validerOutput(transaksjonerResponse)
         return opprettTransaksjonerResponse(transaksjoner)
     }
@@ -111,8 +105,8 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
         return opprettTransaksjonerResponse(transaksjoner)
     }
 
-    fun hentInformasjonOmInnkrevingssaken(person: InnkrevingssakPåPersonRequest): Innkrevingssaksinformasjon {
-        val innkrevingsinformasjonResponse = skattReskontroConsumer.hentInformasjonOmInnkrevingssaken(person.personIdent)
+    fun hentInformasjonOmInnkrevingssaken(personRequest: PersonRequest): Innkrevingssaksinformasjon {
+        val innkrevingsinformasjonResponse = skattReskontroConsumer.hentInformasjonOmInnkrevingssaken(personRequest.ident)
         val innkrevingsinformasjon = validerOutput(innkrevingsinformasjonResponse)
         return Innkrevingssaksinformasjon(
             skyldnerinformasjon = Skyldnerinformasjon(

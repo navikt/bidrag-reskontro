@@ -45,10 +45,7 @@ class SkattReskontroConsumer(
         )
     }
 
-    fun hentTransaksjonerPåBidragssak(
-        saksnummer: Long,
-        antallTransaksjoner: Int?
-    ): ResponseEntity<ReskontroConsumerOutput> {
+    fun hentTransaksjonerPåBidragssak(saksnummer: Long, ): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent transaksjoner for sak: $saksnummer")
         return restTemplate.postForEntity(
             URI.create(skattUrl + TRANSAKSJONER_PATH),
@@ -57,16 +54,13 @@ class SkattReskontroConsumer(
                 bidragssaksnummer = saksnummer,
                 datoFom = "1900-01-01T00:00:00.000Z",
                 datoTom = "9999-01-01T00:00:00.000Z",
-                maxAntallTransaksjoner = antallTransaksjoner
+                maxAntallTransaksjoner = Int.MAX_VALUE
             ),
             ReskontroConsumerOutput::class.java
         )
     }
 
-    fun hentTransaksjonerPåPerson(
-        person: PersonIdent,
-        antall: Int?
-    ): ResponseEntity<ReskontroConsumerOutput> {
+    fun hentTransaksjonerPåPerson(person: PersonIdent): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent transaksjoner for person: ${person.verdi}")
         return restTemplate.postForEntity(
             URI.create(skattUrl + TRANSAKSJONER_PATH),
@@ -75,7 +69,7 @@ class SkattReskontroConsumer(
                 fodselsOrgnr = person.verdi,
                 datoFom = "1900-01-01T00:00:00.000Z",
                 datoTom = "9999-01-01T00:00:00.000Z",
-                maxAntallTransaksjoner = antall
+                maxAntallTransaksjoner = Int.MAX_VALUE
             ),
             ReskontroConsumerOutput::class.java
         )

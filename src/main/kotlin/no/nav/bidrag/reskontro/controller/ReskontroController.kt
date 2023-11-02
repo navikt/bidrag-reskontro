@@ -5,16 +5,14 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
-import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåPersonRequest
-import no.nav.bidrag.reskontro.dto.request.InnkrevingssakPåSaksnummerRequest
-import no.nav.bidrag.reskontro.dto.request.TransaksjonerPåPersonRequest
-import no.nav.bidrag.reskontro.dto.request.TransaksjonerPåSaksnummerRequest
+import no.nav.bidrag.reskontro.dto.request.SaksnummerRequest
 import no.nav.bidrag.reskontro.dto.response.innkrevingssak.Bidragssak
 import no.nav.bidrag.reskontro.dto.response.innkrevingssak.BidragssakMedSkyldner
 import no.nav.bidrag.reskontro.dto.response.innkrevingssak.EndreRmForSak
 import no.nav.bidrag.reskontro.dto.response.innkrevingssaksinformasjon.Innkrevingssaksinformasjon
 import no.nav.bidrag.reskontro.dto.response.transaksjoner.Transaksjoner
 import no.nav.bidrag.reskontro.service.ReskontroService
+import no.nav.bidrag.transport.person.PersonRequest
 import no.nav.security.token.support.core.api.Protected
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -39,8 +37,8 @@ class ReskontroController(val reskontroService: ReskontroService) {
             ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentInnkrevingssakPåBidragssak(@RequestBody bidragssak: InnkrevingssakPåSaksnummerRequest): Bidragssak {
-        return reskontroService.hentInnkrevingssakPåSak(bidragssak)
+    fun hentInnkrevingssakPåBidragssak(@RequestBody saksnummerRequest: SaksnummerRequest): Bidragssak {
+        return reskontroService.hentInnkrevingssakPåSak(saksnummerRequest)
     }
 
     @PostMapping("/innkrevningssak/person")
@@ -56,8 +54,8 @@ class ReskontroController(val reskontroService: ReskontroService) {
             ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentInnkrevingssakPåBidragssak(@RequestBody personIdent: InnkrevingssakPåPersonRequest): BidragssakMedSkyldner {
-        return reskontroService.hentInnkrevingssakPåPerson(personIdent)
+    fun hentInnkrevingssakPåBidragssak(@RequestBody personRequest: PersonRequest): BidragssakMedSkyldner {
+        return reskontroService.hentInnkrevingssakPåPerson(personRequest)
     }
 
     @PostMapping("/transaksjoner/bidragssak")
@@ -73,11 +71,8 @@ class ReskontroController(val reskontroService: ReskontroService) {
             ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentTransaksjonerPåBidragssak(@RequestBody transaksjonerPåBidragssak: TransaksjonerPåSaksnummerRequest): Transaksjoner {
-        return reskontroService.hentTransaksjonerPåBidragssak(
-            transaksjonerPåBidragssak.saksnummer,
-            transaksjonerPåBidragssak.antallTransaksjoner
-        )
+    fun hentTransaksjonerPåBidragssak(@RequestBody saksnummerRequest: SaksnummerRequest): Transaksjoner {
+        return reskontroService.hentTransaksjonerPåBidragssak(saksnummerRequest)
     }
 
     @PostMapping("/transaksjoner/person")
@@ -93,11 +88,8 @@ class ReskontroController(val reskontroService: ReskontroService) {
             ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentTransaksjonerPåPerson(@RequestBody transaksjonerPåPerson: TransaksjonerPåPersonRequest): Transaksjoner {
-        return reskontroService.hentTransaksjonerPåPerson(
-            transaksjonerPåPerson.person,
-            transaksjonerPåPerson.antallTransaksjoner
-        )
+    fun hentTransaksjonerPåPerson(@RequestBody personRequest: PersonRequest): Transaksjoner {
+        return reskontroService.hentTransaksjonerPåPerson(personRequest)
     }
 
     @GetMapping("/transaksjoner/transaksjonsid")
@@ -114,9 +106,7 @@ class ReskontroController(val reskontroService: ReskontroService) {
         ]
     )
     fun hentTransaksjonerPåTransaksjonsid(@RequestParam transaksjonsid: Long): Transaksjoner {
-        return reskontroService.hentTransaksjonerPåTransaksjonsid(
-            transaksjonsid
-        )
+        return reskontroService.hentTransaksjonerPåTransaksjonsid(transaksjonsid)
     }
 
     @PostMapping("/innkrevingsinformasjon")
@@ -132,8 +122,8 @@ class ReskontroController(val reskontroService: ReskontroService) {
             ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
         ]
     )
-    fun hentInformasjonOmInnkrevingssaken(@RequestBody person: InnkrevingssakPåPersonRequest): Innkrevingssaksinformasjon {
-        return reskontroService.hentInformasjonOmInnkrevingssaken(person)
+    fun hentInformasjonOmInnkrevingssaken(@RequestBody personRequest: PersonRequest): Innkrevingssaksinformasjon {
+        return reskontroService.hentInformasjonOmInnkrevingssaken(personRequest)
     }
 
     @PatchMapping("/endreRmForSak")
