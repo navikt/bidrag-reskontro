@@ -13,3 +13,4 @@ jobs:
     secrets: inherit
     with:
       nais_variabler_filnavn: main.yaml
+      java-version: 21
