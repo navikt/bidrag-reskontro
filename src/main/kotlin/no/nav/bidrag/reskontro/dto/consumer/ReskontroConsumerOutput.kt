@@ -5,7 +5,7 @@ import java.math.BigDecimal
 data class ReskontroConsumerOutput(
     val innParametre: ReskontroConsumerInput,
     val skyldner: Skyldner? = null,
-    val bidragssak: Bidragssak,
+    val bidragssak: Bidragssak? = null,
     val transaksjoner: List<Transaksjon>? = null,
     val retur: Retur? = null,
     val gjeldendeBetalingsordning: GjeldendeBetalingsordning? = null,

@@ -1,7 +1,7 @@
 package no.nav.bidrag.reskontro.dto.response.innkrevingssak
 
 import io.swagger.v3.oas.annotations.media.Schema
-import no.nav.bidrag.domain.ident.PersonIdent
+import no.nav.bidrag.domene.ident.Personident
 import java.math.BigDecimal
 
 @Schema(
@@ -13,7 +13,7 @@ data class Skyldner(
     @field:Schema(
         description = "Identen til skyldner"
     )
-    val personIdent: PersonIdent,
+    val personident: Personident,
 
     @field:Schema(
         description = "Sum av beløpsfelt fra innbetalinger i historikk avhengig av fordelingsstatus."

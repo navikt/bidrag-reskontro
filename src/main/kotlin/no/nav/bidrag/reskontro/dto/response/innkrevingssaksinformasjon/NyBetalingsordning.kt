@@ -1,7 +1,7 @@
 package no.nav.bidrag.reskontro.dto.response.innkrevingssaksinformasjon
 
 import io.swagger.v3.oas.annotations.media.Schema
-import no.nav.bidrag.domain.tid.FomDato
+import no.nav.bidrag.domene.tid.FomDato
 import java.math.BigDecimal
 
 @Schema(

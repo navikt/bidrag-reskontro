@@ -139,6 +139,6 @@ class ReskontroController(val reskontroService: ReskontroService) {
         ]
     )
     fun endreRmForSak(@RequestBody endreRmForSak: EndreRmForSak) {
-        reskontroService.endreRmForSak(endreRmForSak.saksnummer, endreRmForSak.barn, endreRmForSak.nyRm)
+        reskontroService.endreRmForSak(endreRmForSak.saksnummer, endreRmForSak.barn, endreRmForSak.nyttFødselsnummer)
     }
 }

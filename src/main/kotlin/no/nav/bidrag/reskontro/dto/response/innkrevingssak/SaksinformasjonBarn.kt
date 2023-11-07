@@ -1,8 +1,8 @@
 package no.nav.bidrag.reskontro.dto.response.innkrevingssak
 
 import io.swagger.v3.oas.annotations.media.Schema
-import no.nav.bidrag.domain.ident.PersonIdent
-import no.nav.bidrag.domain.tid.Periode
+import no.nav.bidrag.domene.ident.Personident
+import no.nav.bidrag.domene.tid.Periode
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -15,7 +15,7 @@ data class SaksinformasjonBarn(
     @field:Schema(
         description = "Ident til barnet."
     )
-    val personIdent: PersonIdent,
+    val personident: Personident,
 
     @field:Schema(
         description = "Resterende gjeld til det offentlige (C1, C2, C3)."

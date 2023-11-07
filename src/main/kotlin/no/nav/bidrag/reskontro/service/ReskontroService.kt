@@ -1,14 +1,13 @@
 package no.nav.bidrag.reskontro.service
 
-import no.nav.bidrag.domain.enums.regnskap.Transaksjonskode
-import no.nav.bidrag.domain.ident.Ident
-import no.nav.bidrag.domain.ident.Organisasjonsnummer
-import no.nav.bidrag.domain.ident.PersonIdent
-import no.nav.bidrag.domain.string.Saksnummer
-import no.nav.bidrag.domain.string.Valutakode
-import no.nav.bidrag.domain.tid.Datoperiode
-import no.nav.bidrag.domain.tid.FomDato
-import no.nav.bidrag.domain.tid.TomDato
+import no.nav.bidrag.domene.enums.regnskap.Transaksjonskode
+import no.nav.bidrag.domene.ident.Ident
+import no.nav.bidrag.domene.ident.Organisasjonsnummer
+import no.nav.bidrag.domene.ident.Personident
+import no.nav.bidrag.domene.streng.Saksnummer
+import no.nav.bidrag.domene.streng.Valutakode
+import no.nav.bidrag.domene.tid.Datoperiode
+import no.nav.bidrag.domene.tid.FomDato
 import no.nav.bidrag.reskontro.consumer.SkattReskontroConsumer
 import no.nav.bidrag.reskontro.dto.consumer.ReskontroConsumerOutput
 import no.nav.bidrag.reskontro.dto.request.SaksnummerRequest
@@ -37,13 +36,13 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
         val innkrevingssak = validerOutput(innkrevingssakResponse)
 
         return Bidragssak(
-            saksnummer = Saksnummer(innkrevingssak.bidragssak.bidragssaksnummer.toString()),
+            saksnummer = Saksnummer(innkrevingssak.bidragssak!!.bidragssaksnummer.toString()),
             bmGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bmGjeldFastsettelsesgebyr,
             bpGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bpGjeldFastsettelsesgebyr,
             bmGjeldRest = innkrevingssak.bidragssak.bmGjeldRest,
             barn = innkrevingssak.bidragssak.perBarnISak?.map {
                 SaksinformasjonBarn(
-                    personIdent = PersonIdent(it.fodselsnummer!!),
+                    personident = Personident(it.fodselsnummer!!),
                     restGjeldOffentlig = it.restGjeldOffentlig!!,
                     restGjeldPrivat = it.restGjeldPrivat!!,
                     sumIkkeUtbetalt = it.sumIkkeUtbetalt!!,
@@ -64,18 +63,18 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
 
         return BidragssakMedSkyldner(
             skyldner = Skyldner(
-                personIdent = PersonIdent(innkrevingssak.skyldner!!.fodselsOrgnr!!),
+                personident = Personident(innkrevingssak.skyldner!!.fodselsOrgnr!!),
                 innbetaltBeløpUfordelt = innkrevingssak.skyldner.innbetBelopUfordelt,
                 gjeldIlagtGebyr = innkrevingssak.skyldner.gjeldIlagtGebyr
             ),
             bidragssak = Bidragssak(
-                saksnummer = Saksnummer(innkrevingssak.bidragssak.bidragssaksnummer.toString()),
+                saksnummer = Saksnummer(innkrevingssak.bidragssak!!.bidragssaksnummer.toString()),
                 bmGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bmGjeldFastsettelsesgebyr,
                 bpGjeldFastsettelsesgebyr = innkrevingssak.bidragssak.bpGjeldFastsettelsesgebyr,
                 bmGjeldRest = innkrevingssak.bidragssak.bmGjeldRest,
                 barn = innkrevingssak.bidragssak.perBarnISak?.map {
                     SaksinformasjonBarn(
-                        personIdent = PersonIdent(it.fodselsnummer!!),
+                        personident = Personident(it.fodselsnummer!!),
                         restGjeldOffentlig = it.restGjeldOffentlig!!,
                         restGjeldPrivat = it.restGjeldPrivat!!,
                         sumForskuddUtbetalt = it.sumForskuddUtbetalt!!,
@@ -112,43 +111,44 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
         val innkrevingsinformasjon = validerOutput(innkrevingsinformasjonResponse)
         return Innkrevingssaksinformasjon(
             skyldnerinformasjon = Skyldnerinformasjon(
-                personIdent = PersonIdent(innkrevingsinformasjon.skyldner!!.fodselsOrgnr!!),
+                personident = Personident(innkrevingsinformasjon.skyldner!!.fodselsOrgnr!!),
                 sumLøpendeBidrag = innkrevingsinformasjon.skyldner.sumLopendeBidrag,
                 innkrevingssaksstatus = innkrevingsinformasjon.skyldner.statusInnkrevingssak!!,
                 fakturamåte = innkrevingsinformasjon.skyldner.fakturamaate!!,
                 sisteAktivitet = innkrevingsinformasjon.skyldner.sisteAktivitet!!
             ),
-             gjeldendeBetalingsordning = GjeldendeBetalingsordning(
-                 typeBehandlingsordning = innkrevingsinformasjon.gjeldendeBetalingsordning!!.typeBetalingsordning!!,
-                 kilde = Organisasjonsnummer(innkrevingsinformasjon.gjeldendeBetalingsordning.kildeOrgnummer!!),
-                 kildeNavn = innkrevingsinformasjon.gjeldendeBetalingsordning.kildeNavn!!,
-                 datoSisteGiro = LocalDateTime.parse(innkrevingsinformasjon.gjeldendeBetalingsordning.datoSisteGiro!!),
-                 nesteForfall = LocalDateTime.parse(innkrevingsinformasjon.gjeldendeBetalingsordning.datoNesteForfall!!),
-                 beløp = innkrevingsinformasjon.gjeldendeBetalingsordning.belop!!,
-                 sistEndret = LocalDateTime.parse(innkrevingsinformasjon.gjeldendeBetalingsordning.datoSistEndret!!),
-                 sistEndretÅrsak = innkrevingsinformasjon.gjeldendeBetalingsordning.aarsakSistEndret!!,
-                 sumUbetalt = innkrevingsinformasjon.gjeldendeBetalingsordning.sumUbetalt!!
-             ),
-             nyBetalingsordning = NyBetalingsordning(
-                 fomDato = FomDato(LocalDateTime.parse(innkrevingsinformasjon.nyBetalingsordning!!.datoFraOgMed!!).toLocalDate()),
-                 beløp = innkrevingsinformasjon.nyBetalingsordning.belop!!
-             ),
-             innkrevingssakshistorikk = innkrevingsinformasjon.innkrevingssaksHistorikk!!.map {
-                 Innkrevingssakshistorikk(
-                     beskrivelse = it.beskrivelse!!,
-                     ident = Ident(it.fodselsOrgNr!!),
-                     navn = it.navn!!,
-                     dato = LocalDateTime.parse(it.dato!!),
-                     beløp = it.belop!!
-                 )
-             }
+            gjeldendeBetalingsordning = GjeldendeBetalingsordning(
+                typeBehandlingsordning = innkrevingsinformasjon.gjeldendeBetalingsordning!!.typeBetalingsordning!!,
+                kilde = Organisasjonsnummer(innkrevingsinformasjon.gjeldendeBetalingsordning.kildeOrgnummer!!),
+                kildeNavn = innkrevingsinformasjon.gjeldendeBetalingsordning.kildeNavn!!,
+                datoSisteGiro = LocalDateTime.parse(innkrevingsinformasjon.gjeldendeBetalingsordning.datoSisteGiro!!),
+                nesteForfall = LocalDateTime.parse(innkrevingsinformasjon.gjeldendeBetalingsordning.datoNesteForfall!!),
+                beløp = innkrevingsinformasjon.gjeldendeBetalingsordning.belop!!,
+                sistEndret = LocalDateTime.parse(innkrevingsinformasjon.gjeldendeBetalingsordning.datoSistEndret!!),
+                sistEndretÅrsak = innkrevingsinformasjon.gjeldendeBetalingsordning.aarsakSistEndret!!,
+                sumUbetalt = innkrevingsinformasjon.gjeldendeBetalingsordning.sumUbetalt!!
+            ),
+            nyBetalingsordning = NyBetalingsordning(
+                fomDato = FomDato(LocalDateTime.parse(innkrevingsinformasjon.nyBetalingsordning!!.datoFraOgMed!!).toLocalDate()),
+                beløp = innkrevingsinformasjon.nyBetalingsordning.belop!!
+            ),
+            innkrevingssakshistorikk = innkrevingsinformasjon.innkrevingssaksHistorikk!!.map {
+                Innkrevingssakshistorikk(
+                    beskrivelse = it.beskrivelse!!,
+                    ident = Ident(it.fodselsOrgNr!!),
+                    navn = it.navn!!,
+                    dato = LocalDateTime.parse(it.dato!!),
+                    beløp = it.belop!!
+                )
+            }
         )
     }
 
-    fun endreRmForSak(saksnummer: Saksnummer, barn: PersonIdent, nyRm: PersonIdent) {
+    fun endreRmForSak(saksnummer: Saksnummer, barn: Personident, nyRm: Personident) {
         val endreRmResponse = skattReskontroConsumer.endreRmForSak(saksnummer.verdi.toLong(), barn, nyRm)
         validerOutput(endreRmResponse)
     }
+
     private fun opprettTransaksjonerResponse(transaksjoner: ReskontroConsumerOutput) = Transaksjoner(
         transaksjoner = transaksjoner.transaksjoner!!.map {
             Transaksjon(
@@ -156,16 +156,18 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
                 transaksjonskode = Transaksjonskode.valueOf(it.kode!!),
                 beskrivelse = it.beskrivelse!!,
                 dato = LocalDateTime.parse(it.dato!!).toLocalDate(),
-                skyldner = PersonIdent(it.kildeFodselsOrgNr!!),
-                mottaker = PersonIdent(it.mottakerFodslesOrgNr!!),
+                skyldner = Personident(it.kildeFodselsOrgNr!!),
+                mottaker = Personident(it.mottakerFodslesOrgNr!!),
                 beløp = it.opprinneligBeloep!!,
                 restBeløp = it.restBeloep!!,
                 beløpIOpprinneligValuta = it.valutaOpprinneligBeloep!!,
                 valutakode = Valutakode(it.valutakode!!),
                 saksnummer = Saksnummer(it.bidragssaksnummer.toString()),
-                fomDato = FomDato(LocalDateTime.parse(it.periodeSisteDatoFom!!).toLocalDate()),
-                tomDato = TomDato(LocalDateTime.parse(it.periodeSisteDatoTom!!).toLocalDate()),
-                barn = PersonIdent(it.barnFodselsnr!!),
+                periode = Datoperiode(
+                    LocalDateTime.parse(it.periodeSisteDatoFom!!).toLocalDate(),
+                    it.periodeSisteDatoTom?.let { tom -> LocalDateTime.parse(tom).toLocalDate() }
+                ),
+                barn = Personident(it.barnFodselsnr!!),
                 delytelsesid = it.bidragsId!!,
                 søknadstype = it.soeknadsType
             )

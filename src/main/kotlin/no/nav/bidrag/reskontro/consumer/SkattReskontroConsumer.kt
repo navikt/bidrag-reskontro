@@ -1,7 +1,7 @@
 package no.nav.bidrag.reskontro.consumer
 
 import no.nav.bidrag.commons.web.client.AbstractRestClient
-import no.nav.bidrag.domain.ident.PersonIdent
+import no.nav.bidrag.domene.ident.Personident
 import no.nav.bidrag.reskontro.SECURE_LOGGER
 import no.nav.bidrag.reskontro.dto.consumer.ReskontroConsumerInput
 import no.nav.bidrag.reskontro.dto.consumer.ReskontroConsumerOutput
@@ -36,7 +36,7 @@ class SkattReskontroConsumer(
         )
     }
 
-    fun hentInnkrevningssakerPåPerson(person: PersonIdent): ResponseEntity<ReskontroConsumerOutput> {
+    fun hentInnkrevningssakerPåPerson(person: Personident): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent bidragssaker for person: ${person.verdi}")
         return restTemplate.postForEntity(
             URI.create(skattUrl + BIDRAGSSAK_PATH),
@@ -60,7 +60,7 @@ class SkattReskontroConsumer(
         )
     }
 
-    fun hentTransaksjonerPåPerson(person: PersonIdent): ResponseEntity<ReskontroConsumerOutput> {
+    fun hentTransaksjonerPåPerson(person: Personident): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent transaksjoner for person: ${person.verdi}")
         return restTemplate.postForEntity(
             URI.create(skattUrl + TRANSAKSJONER_PATH),
@@ -91,7 +91,7 @@ class SkattReskontroConsumer(
         )
     }
 
-    fun hentInformasjonOmInnkrevingssaken(person: PersonIdent): ResponseEntity<ReskontroConsumerOutput> {
+    fun hentInformasjonOmInnkrevingssaken(person: Personident): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent informasjonOmInnkrevingssaken for person: ${person.verdi}")
         return restTemplate.postForEntity(
             URI.create(skattUrl + INNKREVINGSSAK_PATH),
@@ -102,8 +102,8 @@ class SkattReskontroConsumer(
 
     fun endreRmForSak(
         saksnummer: Long,
-        barn: PersonIdent,
-        nyRm: PersonIdent
+        barn: Personident,
+        nyRm: Personident
     ): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller endre RM for sak. NyRM: ${nyRm.verdi} i sak $saksnummer med barn: ${barn.verdi}")
         return restTemplate.exchange(
