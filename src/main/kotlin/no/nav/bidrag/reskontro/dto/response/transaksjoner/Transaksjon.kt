@@ -1,12 +1,11 @@
 package no.nav.bidrag.reskontro.dto.response.transaksjoner
 
 import io.swagger.v3.oas.annotations.media.Schema
-import no.nav.bidrag.domain.enums.regnskap.Transaksjonskode
-import no.nav.bidrag.domain.ident.PersonIdent
-import no.nav.bidrag.domain.string.Saksnummer
-import no.nav.bidrag.domain.string.Valutakode
-import no.nav.bidrag.domain.tid.FomDato
-import no.nav.bidrag.domain.tid.TomDato
+import no.nav.bidrag.domene.enums.regnskap.Transaksjonskode
+import no.nav.bidrag.domene.ident.Personident
+import no.nav.bidrag.domene.streng.Saksnummer
+import no.nav.bidrag.domene.streng.Valutakode
+import no.nav.bidrag.domene.tid.Periode
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -39,12 +38,12 @@ data class Transaksjon(
     @field:Schema(
         description = "Ident til skyldner."
     )
-    val skyldner: PersonIdent,
+    val skyldner: Personident,
 
     @field:Schema(
         description = "Ident til mottaker."
     )
-    val mottaker: PersonIdent,
+    val mottaker: Personident,
 
     @field:Schema(
         description = "Opprinnelig beløp på transaksjonen."
@@ -72,19 +71,14 @@ data class Transaksjon(
     val saksnummer: Saksnummer,
 
     @field:Schema(
-        description = "Fra og med dato for transaksjonen."
+        description = "Periode for transaksjonen."
     )
-    val fomDato: FomDato,
-
-    @field:Schema(
-        description = "Til og med dato for transaksjonen."
-    )
-    val tomDato: TomDato,
+    val periode: Periode<LocalDate>,
 
     @field:Schema(
         description = "Ident til barn."
     )
-    val barn: PersonIdent,
+    val barn: Personident,
 
     @field:Schema(
         description = "Delytelsesid for transaksjonen."

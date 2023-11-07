@@ -1,7 +1,7 @@
 package no.nav.bidrag.reskontro.dto.response.innkrevingssaksinformasjon
 
 import io.swagger.v3.oas.annotations.media.Schema
-import no.nav.bidrag.domain.ident.Organisasjonsnummer
+import no.nav.bidrag.domene.ident.Organisasjonsnummer
 import java.math.BigDecimal
 import java.time.LocalDateTime
 

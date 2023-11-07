@@ -1,10 +1,10 @@
 package no.nav.bidrag.reskontro.dto.response.innkrevingssak
 
-import no.nav.bidrag.domain.ident.PersonIdent
-import no.nav.bidrag.domain.string.Saksnummer
+import no.nav.bidrag.domene.ident.Personident
+import no.nav.bidrag.domene.streng.Saksnummer
 
 data class EndreRmForSak(
     val saksnummer: Saksnummer,
-    val barn: PersonIdent,
-    val nyRm: PersonIdent
+    val barn: Personident,
+    val nyttFødselsnummer: Personident
 )
