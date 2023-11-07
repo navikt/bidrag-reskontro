@@ -4,11 +4,11 @@ import java.math.BigDecimal
 
 data class ReskontroConsumerOutput(
     val innParametre: ReskontroConsumerInput,
-    val skyldner: Skyldner,
+    val skyldner: Skyldner? = null,
     val bidragssak: Bidragssak,
     val transaksjoner: List<Transaksjon>? = null,
     val retur: Retur? = null,
-    val gjeldendeBetalingsordning: GjeldendeBetalingsordning,
+    val gjeldendeBetalingsordning: GjeldendeBetalingsordning? = null,
     val nyBetalingsordning: NyBetalingsordning? = null,
     val innkrevingssaksHistorikk: List<Aktivitet>? = emptyList()
 )
