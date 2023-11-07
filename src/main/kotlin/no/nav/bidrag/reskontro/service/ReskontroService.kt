@@ -26,7 +26,6 @@ import no.nav.bidrag.reskontro.exceptions.IngenDataFraSkattException
 import no.nav.bidrag.transport.person.PersonRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
@@ -48,8 +47,8 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
                     restGjeldPrivat = it.restGjeldPrivat!!,
                     sumIkkeUtbetalt = it.sumIkkeUtbetalt!!,
                     sumForskuddUtbetalt = it.sumForskuddUtbetalt!!,
-                    sisteFomDato = FomDato(LocalDate.parse(it.periodeSisteDatoFom!!)),
-                    sisteTomDato = TomDato(LocalDate.parse(it.periodeSisteDatoTom!!)),
+                    sisteFomDato = FomDato(LocalDateTime.parse(it.periodeSisteDatoFom!!).toLocalDate()),
+                    sisteTomDato = TomDato(LocalDateTime.parse(it.periodeSisteDatoTom!!).toLocalDate()),
                     erStoppIUtbetaling = it.stoppUtbetaling!! == "J"
                 )
             } ?: emptyList()
@@ -62,7 +61,7 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
 
         return BidragssakMedSkyldner(
             skyldner = Skyldner(
-                personIdent = PersonIdent(innkrevingssak.skyldner.fodselsOrgnr!!),
+                personIdent = PersonIdent(innkrevingssak.skyldner!!.fodselsOrgnr!!),
                 innbetaltBeløpUfordelt = innkrevingssak.skyldner.innbetBelopUfordelt,
                 gjeldIlagtGebyr = innkrevingssak.skyldner.gjeldIlagtGebyr
             ),
@@ -110,14 +109,14 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
         val innkrevingsinformasjon = validerOutput(innkrevingsinformasjonResponse)
         return Innkrevingssaksinformasjon(
             skyldnerinformasjon = Skyldnerinformasjon(
-                personIdent = PersonIdent(innkrevingsinformasjon.skyldner.fodselsOrgnr!!),
+                personIdent = PersonIdent(innkrevingsinformasjon.skyldner!!.fodselsOrgnr!!),
                 sumLøpendeBidrag = innkrevingsinformasjon.skyldner.sumLopendeBidrag,
                 innkrevingssaksstatus = innkrevingsinformasjon.skyldner.statusInnkrevingssak!!,
                 fakturamåte = innkrevingsinformasjon.skyldner.fakturamaate!!,
                 sisteAktivitet = innkrevingsinformasjon.skyldner.sisteAktivitet!!
             ),
              gjeldendeBetalingsordning = GjeldendeBetalingsordning(
-                 typeBehandlingsordning = innkrevingsinformasjon.gjeldendeBetalingsordning.typeBetalingsordning!!,
+                 typeBehandlingsordning = innkrevingsinformasjon.gjeldendeBetalingsordning!!.typeBetalingsordning!!,
                  kilde = Organisasjonsnummer(innkrevingsinformasjon.gjeldendeBetalingsordning.kildeOrgnummer!!),
                  kildeNavn = innkrevingsinformasjon.gjeldendeBetalingsordning.kildeNavn!!,
                  datoSisteGiro = LocalDateTime.parse(innkrevingsinformasjon.gjeldendeBetalingsordning.datoSisteGiro!!),
@@ -128,7 +127,7 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
                  sumUbetalt = innkrevingsinformasjon.gjeldendeBetalingsordning.sumUbetalt!!
              ),
              nyBetalingsordning = NyBetalingsordning(
-                 fomDato = FomDato(LocalDate.parse(innkrevingsinformasjon.nyBetalingsordning!!.datoFraOgMed!!)),
+                 fomDato = FomDato(LocalDateTime.parse(innkrevingsinformasjon.nyBetalingsordning!!.datoFraOgMed!!).toLocalDate()),
                  beløp = innkrevingsinformasjon.nyBetalingsordning.belop!!
              ),
              innkrevingssakshistorikk = innkrevingsinformasjon.innkrevingssaksHistorikk!!.map {
@@ -153,7 +152,7 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
                 transaksjonsid = it.transaksjonsId,
                 transaksjonskode = Transaksjonskode.valueOf(it.kode!!),
                 beskrivelse = it.beskrivelse!!,
-                dato = LocalDate.parse(it.dato!!),
+                dato = LocalDateTime.parse(it.dato!!).toLocalDate(),
                 skyldner = PersonIdent(it.kildeFodselsOrgNr!!),
                 mottaker = PersonIdent(it.mottakerFodslesOrgNr!!),
                 beløp = it.opprinneligBeloep!!,
@@ -161,8 +160,8 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
                 beløpIOpprinneligValuta = it.valutaOpprinneligBeloep!!,
                 valutakode = Valutakode(it.valutakode!!),
                 saksnummer = Saksnummer(it.bidragssaksnummer.toString()),
-                fomDato = FomDato(LocalDate.parse(it.periodeSisteDatoFom!!)),
-                tomDato = TomDato(LocalDate.parse(it.periodeSisteDatoTom!!)),
+                fomDato = FomDato(LocalDateTime.parse(it.periodeSisteDatoFom!!).toLocalDate()),
+                tomDato = TomDato(LocalDateTime.parse(it.periodeSisteDatoTom!!).toLocalDate()),
                 barn = PersonIdent(it.barnFodselsnr!!),
                 delytelsesid = it.bidragsId!!,
                 søknadstype = it.soeknadsType
