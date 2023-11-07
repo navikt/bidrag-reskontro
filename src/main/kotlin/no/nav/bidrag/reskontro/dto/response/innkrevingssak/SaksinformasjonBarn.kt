@@ -2,9 +2,9 @@ package no.nav.bidrag.reskontro.dto.response.innkrevingssak
 
 import io.swagger.v3.oas.annotations.media.Schema
 import no.nav.bidrag.domain.ident.PersonIdent
-import no.nav.bidrag.domain.tid.FomDato
-import no.nav.bidrag.domain.tid.TomDato
+import no.nav.bidrag.domain.tid.Periode
 import java.math.BigDecimal
+import java.time.LocalDate
 
 @Schema(
     name = "SaksinformasjonBarn",
@@ -57,16 +57,10 @@ data class SaksinformasjonBarn(
     val sumForskuddUtbetaltAndel: BigDecimal? = null,
 
     @field:Schema(
-        description = "Siste fra og med dato for B1, D1 eller F1. Angitt som første dato i måneden. " +
-            "Beregnes ikke for kall på personIdent."
+        description = "Periode for B1, D1 eller F1. Angitt som første dato i måneden. " +
+                "Beregnes ikke for kall på personIdent."
     )
-    val fomDato: FomDato? = null,
-
-    @field:Schema(
-        description = "Siste til og med dato for B1, D1 eller F1. Angitt som første dato i måneden. " +
-            "Beregnes ikke for kall på personIdent."
-    )
-    val tomDato: TomDato? = null,
+    val periode: Periode<LocalDate>? = null,
 
     @field:Schema(
         description = "Angir om det er stopp i utbetaling. " +

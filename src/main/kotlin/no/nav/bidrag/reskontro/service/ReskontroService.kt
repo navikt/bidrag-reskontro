@@ -6,6 +6,7 @@ import no.nav.bidrag.domain.ident.Organisasjonsnummer
 import no.nav.bidrag.domain.ident.PersonIdent
 import no.nav.bidrag.domain.string.Saksnummer
 import no.nav.bidrag.domain.string.Valutakode
+import no.nav.bidrag.domain.tid.Datoperiode
 import no.nav.bidrag.domain.tid.FomDato
 import no.nav.bidrag.domain.tid.TomDato
 import no.nav.bidrag.reskontro.consumer.SkattReskontroConsumer
@@ -47,8 +48,10 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
                     restGjeldPrivat = it.restGjeldPrivat!!,
                     sumIkkeUtbetalt = it.sumIkkeUtbetalt!!,
                     sumForskuddUtbetalt = it.sumForskuddUtbetalt!!,
-                    fomDato = FomDato(LocalDateTime.parse(it.periodeSisteDatoFom!!).toLocalDate()),
-                    tomDato = TomDato(LocalDateTime.parse(it.periodeSisteDatoTom!!).toLocalDate()),
+                    periode = Datoperiode(
+                        LocalDateTime.parse(it.periodeSisteDatoFom!!).toLocalDate(),
+                        it.periodeSisteDatoTom?.let { tom -> LocalDateTime.parse(tom).toLocalDate() }
+                    ),
                     erStoppIUtbetaling = it.stoppUtbetaling!! == "J"
                 )
             } ?: emptyList()
