@@ -60,13 +60,13 @@ data class SaksinformasjonBarn(
         description = "Siste fra og med dato for B1, D1 eller F1. Angitt som første dato i måneden. " +
             "Beregnes ikke for kall på personIdent."
     )
-    val sisteFomDato: FomDato? = null,
+    val fomDato: FomDato? = null,
 
     @field:Schema(
         description = "Siste til og med dato for B1, D1 eller F1. Angitt som første dato i måneden. " +
             "Beregnes ikke for kall på personIdent."
     )
-    val sisteTomDato: TomDato? = null,
+    val tomDato: TomDato? = null,
 
     @field:Schema(
         description = "Angir om det er stopp i utbetaling. " +
