@@ -47,8 +47,8 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
                     restGjeldPrivat = it.restGjeldPrivat!!,
                     sumIkkeUtbetalt = it.sumIkkeUtbetalt!!,
                     sumForskuddUtbetalt = it.sumForskuddUtbetalt!!,
-                    sisteFomDato = FomDato(LocalDateTime.parse(it.periodeSisteDatoFom!!).toLocalDate()),
-                    sisteTomDato = TomDato(LocalDateTime.parse(it.periodeSisteDatoTom!!).toLocalDate()),
+                    fomDato = FomDato(LocalDateTime.parse(it.periodeSisteDatoFom!!).toLocalDate()),
+                    tomDato = TomDato(LocalDateTime.parse(it.periodeSisteDatoTom!!).toLocalDate()),
                     erStoppIUtbetaling = it.stoppUtbetaling!! == "J"
                 )
             } ?: emptyList()
