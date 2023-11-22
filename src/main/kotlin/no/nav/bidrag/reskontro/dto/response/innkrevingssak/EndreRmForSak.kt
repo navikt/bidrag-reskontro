@@ -6,5 +6,5 @@ import no.nav.bidrag.domene.streng.Saksnummer
 data class EndreRmForSak(
     val saksnummer: Saksnummer,
     val barn: Personident,
-    val nyttFødselsnummer: Personident
+    val nyttFødselsnummer: Personident,
 )

@@ -17,9 +17,8 @@ import java.net.URI
 @Service
 class SkattReskontroConsumer(
     @Value("\${SKATT_URL}") private val skattUrl: String,
-    @Qualifier("maskinporten") private val restTemplate: RestOperations
+    @Qualifier("maskinporten") private val restTemplate: RestOperations,
 ) : AbstractRestClient(restTemplate, "bidrag-reskontro") {
-
     companion object {
         const val BIDRAGSSAK_PATH = "/BisysResk/bidragssak"
         const val TRANSAKSJONER_PATH = "/BisysResk/transaksjoner"
@@ -32,7 +31,7 @@ class SkattReskontroConsumer(
         return restTemplate.postForEntity(
             URI.create(skattUrl + BIDRAGSSAK_PATH),
             ReskontroConsumerInput(aksjonskode = 1, bidragssaksnummer = saksnummer),
-            ReskontroConsumerOutput::class.java
+            ReskontroConsumerOutput::class.java,
         )
     }
 
@@ -41,11 +40,11 @@ class SkattReskontroConsumer(
         return restTemplate.postForEntity(
             URI.create(skattUrl + BIDRAGSSAK_PATH),
             ReskontroConsumerInput(aksjonskode = 2, fodselsOrgnr = person.verdi),
-            ReskontroConsumerOutput::class.java
+            ReskontroConsumerOutput::class.java,
         )
     }
 
-    fun hentTransaksjonerPåBidragssak(saksnummer: Long, ): ResponseEntity<ReskontroConsumerOutput> {
+    fun hentTransaksjonerPåBidragssak(saksnummer: Long): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent transaksjoner for sak: $saksnummer")
         return restTemplate.postForEntity(
             URI.create(skattUrl + TRANSAKSJONER_PATH),
@@ -54,9 +53,9 @@ class SkattReskontroConsumer(
                 bidragssaksnummer = saksnummer,
                 datoFom = "1900-01-01T00:00:00.000Z",
                 datoTom = "9999-01-01T00:00:00.000Z",
-                maxAntallTransaksjoner = Int.MAX_VALUE
+                maxAntallTransaksjoner = Int.MAX_VALUE,
             ),
-            ReskontroConsumerOutput::class.java
+            ReskontroConsumerOutput::class.java,
         )
     }
 
@@ -69,15 +68,13 @@ class SkattReskontroConsumer(
                 fodselsOrgnr = person.verdi,
                 datoFom = "1900-01-01T00:00:00.000Z",
                 datoTom = "9999-01-01T00:00:00.000Z",
-                maxAntallTransaksjoner = Int.MAX_VALUE
+                maxAntallTransaksjoner = Int.MAX_VALUE,
             ),
-            ReskontroConsumerOutput::class.java
+            ReskontroConsumerOutput::class.java,
         )
     }
 
-    fun hentTransaksjonerPåTransaksjonsId(
-        transaksjonsid: Long
-    ): ResponseEntity<ReskontroConsumerOutput> {
+    fun hentTransaksjonerPåTransaksjonsId(transaksjonsid: Long): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller hent transaksjoner for transaksjonsId: $transaksjonsid")
         return restTemplate.postForEntity(
             URI.create(skattUrl + TRANSAKSJONER_PATH),
@@ -85,9 +82,9 @@ class SkattReskontroConsumer(
                 aksjonskode = 5,
                 transaksjonsId = transaksjonsid,
                 datoFom = "1900-01-01T00:00:00.000Z",
-                datoTom = "9999-01-01T00:00:00.000Z"
+                datoTom = "9999-01-01T00:00:00.000Z",
             ),
-            ReskontroConsumerOutput::class.java
+            ReskontroConsumerOutput::class.java,
         )
     }
 
@@ -96,14 +93,14 @@ class SkattReskontroConsumer(
         return restTemplate.postForEntity(
             URI.create(skattUrl + INNKREVINGSSAK_PATH),
             ReskontroConsumerInput(aksjonskode = 6, fodselsOrgnr = person.verdi),
-            ReskontroConsumerOutput::class.java
+            ReskontroConsumerOutput::class.java,
         )
     }
 
     fun endreRmForSak(
         saksnummer: Long,
         barn: Personident,
-        nyRm: Personident
+        nyRm: Personident,
     ): ResponseEntity<ReskontroConsumerOutput> {
         SECURE_LOGGER.info("Kaller endre RM for sak. NyRM: ${nyRm.verdi} i sak $saksnummer med barn: ${barn.verdi}")
         return restTemplate.exchange(
@@ -114,10 +111,10 @@ class SkattReskontroConsumer(
                     aksjonskode = 8,
                     bidragssaksnummer = saksnummer,
                     fodselsnrGjelder = barn.verdi,
-                    fodselsnrNy = nyRm.verdi
-                )
+                    fodselsnrNy = nyRm.verdi,
+                ),
             ),
-            ReskontroConsumerOutput::class.java
+            ReskontroConsumerOutput::class.java,
         )
     }
 }

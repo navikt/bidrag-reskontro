@@ -24,121 +24,134 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @Protected
 class ReskontroController(val reskontroService: ReskontroService) {
-
     @PostMapping("/innkrevningssak/bidragssak")
     @Operation(
         description = "Henter saksinformasjon om bidragssaken",
-        security = [SecurityRequirement(name = "bearer-key")]
+        security = [SecurityRequirement(name = "bearer-key")],
     )
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Hentet saksinformasjon om bidragssaken"),
             ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
-        ]
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()]),
+        ],
     )
-    fun hentInnkrevingssakPåBidragssak(@RequestBody saksnummerRequest: SaksnummerRequest): Bidragssak {
+    fun hentInnkrevingssakPåBidragssak(
+        @RequestBody saksnummerRequest: SaksnummerRequest,
+    ): Bidragssak {
         return reskontroService.hentInnkrevingssakPåSak(saksnummerRequest)
     }
 
     @PostMapping("/innkrevningssak/person")
     @Operation(
         description = "Henter saksinformasjon om bidragssaker på personen",
-        security = [SecurityRequirement(name = "bearer-key")]
+        security = [SecurityRequirement(name = "bearer-key")],
     )
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Hentet saksinformasjon om bidragssaker på personen"),
             ApiResponse(responseCode = "204", description = "Fant ingen data", content = [Content()]),
             ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
-        ]
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()]),
+        ],
     )
-    fun hentInnkrevingssakPåBidragssak(@RequestBody personRequest: PersonRequest): BidragssakMedSkyldner {
+    fun hentInnkrevingssakPåBidragssak(
+        @RequestBody personRequest: PersonRequest,
+    ): BidragssakMedSkyldner {
         return reskontroService.hentInnkrevingssakPåPerson(personRequest)
     }
 
     @PostMapping("/transaksjoner/bidragssak")
     @Operation(
         description = "Henter transaksjoner for bidragssaken",
-        security = [SecurityRequirement(name = "bearer-key")]
+        security = [SecurityRequirement(name = "bearer-key")],
     )
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Hentet transaksjoner for bidragssaken"),
             ApiResponse(responseCode = "204", description = "Fant ingen data", content = [Content()]),
             ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
-        ]
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()]),
+        ],
     )
-    fun hentTransaksjonerPåBidragssak(@RequestBody saksnummerRequest: SaksnummerRequest): Transaksjoner {
+    fun hentTransaksjonerPåBidragssak(
+        @RequestBody saksnummerRequest: SaksnummerRequest,
+    ): Transaksjoner {
         return reskontroService.hentTransaksjonerPåBidragssak(saksnummerRequest)
     }
 
     @PostMapping("/transaksjoner/person")
     @Operation(
         description = "Henter transaksjoner for person",
-        security = [SecurityRequirement(name = "bearer-key")]
+        security = [SecurityRequirement(name = "bearer-key")],
     )
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Hentet transaksjoner for person"),
             ApiResponse(responseCode = "204", description = "Fant ingen data", content = [Content()]),
             ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
-        ]
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()]),
+        ],
     )
-    fun hentTransaksjonerPåPerson(@RequestBody personRequest: PersonRequest): Transaksjoner {
+    fun hentTransaksjonerPåPerson(
+        @RequestBody personRequest: PersonRequest,
+    ): Transaksjoner {
         return reskontroService.hentTransaksjonerPåPerson(personRequest)
     }
 
     @GetMapping("/transaksjoner/transaksjonsid")
     @Operation(
         description = "Henter transaksjoner på transaksjonsid",
-        security = [SecurityRequirement(name = "bearer-key")]
+        security = [SecurityRequirement(name = "bearer-key")],
     )
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Hentet transaksjoner på transaksjonsid"),
             ApiResponse(responseCode = "204", description = "Fant ingen data", content = [Content()]),
             ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
-        ]
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()]),
+        ],
     )
-    fun hentTransaksjonerPåTransaksjonsid(@RequestParam transaksjonsid: Long): Transaksjoner {
+    fun hentTransaksjonerPåTransaksjonsid(
+        @RequestParam transaksjonsid: Long,
+    ): Transaksjoner {
         return reskontroService.hentTransaksjonerPåTransaksjonsid(transaksjonsid)
     }
 
     @PostMapping("/innkrevingsinformasjon")
     @Operation(
         description = "Henter informasjon om innkrevingssaken knyttet til person",
-        security = [SecurityRequirement(name = "bearer-key")]
+        security = [SecurityRequirement(name = "bearer-key")],
     )
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Hentet informasjon om innkrevingssaken knyttet til person"),
             ApiResponse(responseCode = "204", description = "Fant ingen data", content = [Content()]),
             ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
-        ]
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()]),
+        ],
     )
-    fun hentInformasjonOmInnkrevingssaken(@RequestBody personRequest: PersonRequest): Innkrevingssaksinformasjon {
+    fun hentInformasjonOmInnkrevingssaken(
+        @RequestBody personRequest: PersonRequest,
+    ): Innkrevingssaksinformasjon {
         return reskontroService.hentInformasjonOmInnkrevingssaken(personRequest)
     }
 
     @PatchMapping("/endreRmForSak")
     @Operation(
         description = "Endrer rm for sak",
-        security = [SecurityRequirement(name = "bearer-key")]
+        security = [SecurityRequirement(name = "bearer-key")],
     )
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Endret rm for sak"),
             ApiResponse(responseCode = "400", description = "Feil i forespørselen", content = [Content()]),
-            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()])
-        ]
+            ApiResponse(responseCode = "401", description = "Maskinporten-token er ikke gyldig", content = [Content()]),
+        ],
     )
-    fun endreRmForSak(@RequestBody endreRmForSak: EndreRmForSak) {
+    fun endreRmForSak(
+        @RequestBody endreRmForSak: EndreRmForSak,
+    ) {
         reskontroService.endreRmForSak(endreRmForSak.saksnummer, endreRmForSak.barn, endreRmForSak.nyttFødselsnummer)
     }
 }

@@ -6,23 +6,19 @@ import java.math.BigDecimal
 
 @Schema(
     name = "Skyldner",
-    description = "Informasjon om skyldner."
+    description = "Informasjon om skyldner.",
 )
 data class Skyldner(
-
     @field:Schema(
-        description = "Identen til skyldner"
+        description = "Identen til skyldner",
     )
     val personident: Personident,
-
     @field:Schema(
-        description = "Sum av beløpsfelt fra innbetalinger i historikk avhengig av fordelingsstatus."
+        description = "Sum av beløpsfelt fra innbetalinger i historikk avhengig av fordelingsstatus.",
     )
     val innbetaltBeløpUfordelt: BigDecimal,
-
     @field:Schema(
-        description = "Sum av saldo gebyrer på sak."
+        description = "Sum av saldo gebyrer på sak.",
     )
-    val gjeldIlagtGebyr: BigDecimal
-
+    val gjeldIlagtGebyr: BigDecimal,
 )

@@ -10,14 +10,15 @@ data class ReskontroConsumerOutput(
     val retur: Retur? = null,
     val gjeldendeBetalingsordning: GjeldendeBetalingsordning? = null,
     val nyBetalingsordning: NyBetalingsordning? = null,
-    val innkrevingssaksHistorikk: List<Aktivitet>? = emptyList()
+    val innkrevingssaksHistorikk: List<Aktivitet>? = emptyList(),
 )
+
 data class Aktivitet(
     val beskrivelse: String? = null,
     val fodselsOrgNr: String? = null,
     val navn: String? = null,
     val dato: String? = null,
-    val belop: BigDecimal? = null
+    val belop: BigDecimal? = null,
 )
 
 data class BarnISak(
@@ -31,7 +32,7 @@ data class BarnISak(
     val sumForskuddUtbetaltAndel: BigDecimal? = null,
     val periodeSisteDatoFom: String? = null,
     val periodeSisteDatoTom: String? = null,
-    val stoppUtbetaling: String? = null
+    val stoppUtbetaling: String? = null,
 )
 
 data class Bidragssak(
@@ -39,7 +40,7 @@ data class Bidragssak(
     val bmGjeldFastsettelsesgebyr: BigDecimal,
     val bmGjeldRest: BigDecimal,
     val bpGjeldFastsettelsesgebyr: BigDecimal,
-    val perBarnISak: List<BarnISak>? = emptyList()
+    val perBarnISak: List<BarnISak>? = emptyList(),
 )
 
 data class GjeldendeBetalingsordning(
@@ -51,17 +52,17 @@ data class GjeldendeBetalingsordning(
     val belop: BigDecimal? = null,
     val datoSistEndret: String? = null,
     val aarsakSistEndret: String? = null,
-    val sumUbetalt: BigDecimal? = null
+    val sumUbetalt: BigDecimal? = null,
 )
 
 data class NyBetalingsordning(
     val datoFraOgMed: String? = null,
-    val belop: BigDecimal? = null
+    val belop: BigDecimal? = null,
 )
 
 data class Retur(
     val kode: Int,
-    val beskrivelse: String? = null
+    val beskrivelse: String? = null,
 )
 
 data class Skyldner(
@@ -71,7 +72,7 @@ data class Skyldner(
     val fakturamaate: String? = null,
     val sisteAktivitet: String? = null,
     val innbetBelopUfordelt: BigDecimal,
-    val gjeldIlagtGebyr: BigDecimal
+    val gjeldIlagtGebyr: BigDecimal,
 )
 
 data class Transaksjon(
@@ -90,5 +91,5 @@ data class Transaksjon(
     val periodeSisteDatoTom: String? = null,
     val barnFodselsnr: String? = null,
     val bidragsId: String? = null,
-    val soeknadsType: String? = null
+    val soeknadsType: String? = null,
 )

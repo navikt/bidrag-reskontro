@@ -16,7 +16,6 @@ import org.springframework.http.HttpHeaders
 @Configuration
 @Profile("test")
 class TestRestTemplateConfiguration {
-
     @Autowired
     private lateinit var mockOAuth2Server: MockOAuth2Server
 
@@ -34,18 +33,19 @@ class TestRestTemplateConfiguration {
     private fun generateBearerToken(): String {
         val iss = mockOAuth2Server.issuerUrl("aad")
         val newIssuer = iss.newBuilder().host("localhost").build()
-        val token = mockOAuth2Server.issueToken(
-            "aad",
-            clientId,
-            DefaultOAuth2TokenCallback(
+        val token =
+            mockOAuth2Server.issueToken(
                 "aad",
-                "aud-localhost",
-                JOSEObjectType.JWT.type,
-                listOf(clientId),
-                mapOf("iss" to newIssuer.toString()),
-                3600
+                clientId,
+                DefaultOAuth2TokenCallback(
+                    "aad",
+                    "aud-localhost",
+                    JOSEObjectType.JWT.type,
+                    listOf(clientId),
+                    mapOf("iss" to newIssuer.toString()),
+                    3600,
+                ),
             )
-        )
         return "Bearer " + token.serialize()
     }
 }
