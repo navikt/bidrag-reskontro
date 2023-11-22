@@ -4,9 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 import no.nav.bidrag.domene.streng.Saksnummer
 
 data class SaksnummerRequest(
-
     @field:Schema(
-        description = "Saksnummer, refereres til hos skatt som bidragssaksnummer."
+        description = "Saksnummer, refereres til hos skatt som bidragssaksnummer.",
     )
-    val saksnummer: Saksnummer
+    val saksnummer: Saksnummer,
 )

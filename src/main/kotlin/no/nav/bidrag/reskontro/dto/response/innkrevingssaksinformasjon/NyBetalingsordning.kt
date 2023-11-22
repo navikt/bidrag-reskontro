@@ -6,17 +6,15 @@ import java.math.BigDecimal
 
 @Schema(
     name = "NyBetalingsordning",
-    description = "Inneholder informasjon om ny betalingsordning."
+    description = "Inneholder informasjon om ny betalingsordning.",
 )
-data class NyBetalingsordning (
-
+data class NyBetalingsordning(
     @field:Schema(
-        description = "Dato når ny betalingsordning gjelder fra."
+        description = "Dato når ny betalingsordning gjelder fra.",
     )
     val fomDato: FomDato,
-
     @field:Schema(
-        description = "Nytt beløp."
+        description = "Nytt beløp.",
     )
-    val beløp: BigDecimal
+    val beløp: BigDecimal,
 )

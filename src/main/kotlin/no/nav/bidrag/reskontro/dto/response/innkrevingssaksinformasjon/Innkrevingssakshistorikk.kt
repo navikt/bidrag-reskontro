@@ -7,32 +7,27 @@ import java.time.LocalDateTime
 
 @Schema(
     name = "Innkrevingssakshistorikk",
-    description = "Inneholder informasjon om historikken til innkrevingssaken."
+    description = "Inneholder informasjon om historikken til innkrevingssaken.",
 )
 data class Innkrevingssakshistorikk(
-
     @field:Schema(
-        description = "Beskrivelse av hva posten innebar. E.g \"OCR Innbetaling\" eller \"Påløp avdragsordning\"."
+        description = "Beskrivelse av hva posten innebar. E.g \"OCR Innbetaling\" eller \"Påløp avdragsordning\".",
     )
     val beskrivelse: String,
-
     @field:Schema(
-        description = "Ident knyttet til det historiske innslaget."
+        description = "Ident knyttet til det historiske innslaget.",
     )
     val ident: Ident,
-
     @field:Schema(
-        description = "Navn til ident knyttet til det historiske innslaget."
+        description = "Navn til ident knyttet til det historiske innslaget.",
     )
     val navn: String,
-
     @field:Schema(
-        description = "Tidspunkt for innslaget."
+        description = "Tidspunkt for innslaget.",
     )
     val dato: LocalDateTime,
-
     @field:Schema(
-        description = "Innbetalt beløp."
+        description = "Innbetalt beløp.",
     )
-    val beløp: BigDecimal
+    val beløp: BigDecimal,
 )

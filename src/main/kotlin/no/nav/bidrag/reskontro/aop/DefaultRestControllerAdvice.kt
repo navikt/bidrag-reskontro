@@ -1,5 +1,6 @@
 package no.nav.bidrag.reskontro.aop
 
+import no.nav.bidrag.commons.security.maskinporten.MaskinportenClientException
 import no.nav.bidrag.reskontro.exceptions.IngenDataFraSkattException
 import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnauthorizedException
 import org.slf4j.LoggerFactory
@@ -61,10 +62,19 @@ class DefaultRestControllerAdvice {
 
     @ResponseBody
     @ExceptionHandler(IngenDataFraSkattException::class)
-    fun handleUnauthorizedException(exception: IngenDataFraSkattException): ResponseEntity<*> {
+    fun handleIngenDataFraSkattException(exception: IngenDataFraSkattException): ResponseEntity<*> {
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .header(HttpHeaders.ACCEPT, "Fant ingen data")
+            .header(HttpHeaders.WARNING, "Fant ingen data")
+            .build<Any>()
+    }
+
+    @ResponseBody
+    @ExceptionHandler(MaskinportenClientException::class)
+    fun handleMaskinportenClientException(exception: MaskinportenClientException): ResponseEntity<*> {
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .header(HttpHeaders.WARNING, "Feil i maskinportentoken benyttet mot skatt")
             .build<Any>()
     }
 }

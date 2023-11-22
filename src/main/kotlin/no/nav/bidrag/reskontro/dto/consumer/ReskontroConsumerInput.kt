@@ -9,5 +9,5 @@ data class ReskontroConsumerInput(
     val datoTom: String? = null,
     val maxAntallTransaksjoner: Int? = null,
     val fodselsnrGjelder: String? = null,
-    val fodselsnrNy: String? = null
+    val fodselsnrNy: String? = null,
 )
