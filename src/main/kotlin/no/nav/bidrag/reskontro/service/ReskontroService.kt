@@ -5,10 +5,8 @@ import no.nav.bidrag.domene.enums.regnskap.Transaksjonskode
 import no.nav.bidrag.domene.ident.Ident
 import no.nav.bidrag.domene.ident.Organisasjonsnummer
 import no.nav.bidrag.domene.ident.Personident
-import no.nav.bidrag.domene.streng.Saksnummer
-import no.nav.bidrag.domene.streng.Valutakode
+import no.nav.bidrag.domene.sak.Saksnummer
 import no.nav.bidrag.domene.tid.Datoperiode
-import no.nav.bidrag.domene.tid.FomDato
 import no.nav.bidrag.reskontro.consumer.SkattReskontroConsumer
 import no.nav.bidrag.reskontro.dto.consumer.ReskontroConsumerOutput
 import no.nav.bidrag.reskontro.dto.request.SaksnummerRequest
@@ -138,7 +136,11 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
                 ),
             nyBetalingsordning =
                 NyBetalingsordning(
-                    fomDato = FomDato(LocalDateTime.parse(innkrevingsinformasjon.nyBetalingsordning!!.datoFraOgMed!!).toLocalDate()),
+                    fomDato =
+                        Datoperiode(
+                            LocalDateTime.parse(innkrevingsinformasjon.nyBetalingsordning!!.datoFraOgMed!!).toLocalDate(),
+                            null,
+                        ),
                     beløp = innkrevingsinformasjon.nyBetalingsordning.belop!!,
                 ),
             innkrevingssakshistorikk =
@@ -177,7 +179,7 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
                         beløp = it.opprinneligBeloep!!,
                         restBeløp = it.restBeloep!!,
                         beløpIOpprinneligValuta = it.valutaOpprinneligBeloep!!,
-                        valutakode = Valutakode(it.valutakode!!),
+                        valutakode = it.valutakode!!,
                         saksnummer = Saksnummer(it.bidragssaksnummer.toString()),
                         periode =
                             Datoperiode(

@@ -1,7 +1,7 @@
 package no.nav.bidrag.reskontro.dto.response.innkrevingssak
 
 import io.swagger.v3.oas.annotations.media.Schema
-import no.nav.bidrag.domene.streng.Saksnummer
+import no.nav.bidrag.domene.sak.Saksnummer
 import java.math.BigDecimal
 
 @Schema(

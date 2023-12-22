@@ -3,8 +3,7 @@ package no.nav.bidrag.reskontro.dto.response.transaksjoner
 import io.swagger.v3.oas.annotations.media.Schema
 import no.nav.bidrag.domene.enums.regnskap.Transaksjonskode
 import no.nav.bidrag.domene.ident.Personident
-import no.nav.bidrag.domene.streng.Saksnummer
-import no.nav.bidrag.domene.streng.Valutakode
+import no.nav.bidrag.domene.sak.Saksnummer
 import no.nav.bidrag.domene.tid.Periode
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -55,7 +54,7 @@ data class Transaksjon(
         // TODO(Avklare om dette er valutakode for opprinnelige beløpet eller beløps valutakode)
         description = "Valutakode.",
     )
-    val valutakode: Valutakode,
+    val valutakode: String,
     @field:Schema(
         description = "Saksnummer for bidragssaken.",
     )

@@ -9,7 +9,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import no.nav.bidrag.commons.security.maskinporten.MaskinportenClientException
 import no.nav.bidrag.commons.util.PersonidentGenerator
-import no.nav.bidrag.domene.streng.Saksnummer
+import no.nav.bidrag.domene.sak.Saksnummer
 import no.nav.bidrag.reskontro.consumer.SkattReskontroConsumer
 import no.nav.bidrag.reskontro.dto.consumer.BarnISak
 import no.nav.bidrag.reskontro.dto.consumer.Bidragssak
