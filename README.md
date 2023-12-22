@@ -1,7 +1,7 @@
 # Bidrag-template-spring
 Template repo for å opprette ny Spring applikasjon for Bidrag
 
-[![continuous integration](https://github.com/navikt/bidrag-reskontro/actions/workflows/ci.yaml/badge.svg)](https://github.com/navikt/bidrag-reskontro/actions/workflows/ci.yaml)
+[![continuous integration](https://github.com/navikt/bidrag-reskontro/actions/workflows/pr.yaml/badge.svg)](https://github.com/navikt/bidrag-reskontro/actions/workflows/ci.yaml)
 [![release bidrag-reskontro](https://github.com/navikt/bidrag-reskontro/actions/workflows/release.yaml/badge.svg)](https://github.com/navikt/bidrag-reskontro/actions/workflows/release.yaml)
 
 ## Beskrivelse
