@@ -14,9 +14,9 @@
 	<name>bidrag-reskontro</name>
 	<properties>
 		<java.version>21</java.version>
-		<kotlin.version>1.9.21</kotlin.version>
+		<kotlin.version>1.9.22</kotlin.version>
 		<bidrag-commons.version>20231220091947_b4b43f0</bidrag-commons.version>
-		<bidrag-transport.version>20231221145650_4172b07</bidrag-transport.version>
+		<bidrag-transport.version>20240102141621_d1f249e</bidrag-transport.version>
 		<logback-encoder.version>7.4</logback-encoder.version>
 		<springdoc-openapi-ui.version>2.3.0</springdoc-openapi-ui.version>
 		<springframework-cloud.version>4.1.0</springframework-cloud.version>
@@ -24,8 +24,8 @@
 		<bidrag-commons-test.version>1.20231220143255_5a8d330</bidrag-commons-test.version>
 		<kotest.version>5.8.0</kotest.version>
 		<mockk.version>1.13.8</mockk.version>
-		<kotlin-logging-jvw.version>6.0.1</kotlin-logging-jvw.version>
-		<fasterxml-jackson-module-kotlin.version>2.16.0</fasterxml-jackson-module-kotlin.version>
+		<kotlin-logging-jvm.version>6.0.1</kotlin-logging-jvm.version>
+		<fasterxml-jackson-module-kotlin.version>2.16.1</fasterxml-jackson-module-kotlin.version>
 		<maven-antrun.version>3.1.0</maven-antrun.version>
 		<ktlint.version>1.1.0</ktlint.version>
 	</properties>
@@ -111,6 +111,24 @@
 			<groupId>no.nav.bidrag</groupId>
 			<artifactId>bidrag-commons</artifactId>
 			<version>${bidrag-commons.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-el</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jetty</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>no.nav.bidrag</groupId>
@@ -146,7 +164,7 @@
 		<dependency>
 			<groupId>io.github.oshai</groupId>
 			<artifactId>kotlin-logging-jvm</artifactId>
-			<version>${kotlin-logging-jvw.version}</version>
+			<version>${kotlin-logging-jvm.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
