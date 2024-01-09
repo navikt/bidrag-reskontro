@@ -12,7 +12,7 @@ data class NyBetalingsordning(
     @field:Schema(
         description = "Dato når ny betalingsordning gjelder fra.",
     )
-    val fomDato: Datoperiode,
+    val dato: Datoperiode,
     @field:Schema(
         description = "Nytt beløp.",
     )

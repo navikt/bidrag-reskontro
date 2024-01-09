@@ -136,11 +136,7 @@ class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsume
                 ),
             nyBetalingsordning =
                 NyBetalingsordning(
-                    fomDato =
-                        Datoperiode(
-                            LocalDateTime.parse(innkrevingsinformasjon.nyBetalingsordning!!.datoFraOgMed!!).toLocalDate(),
-                            null,
-                        ),
+                    dato = Datoperiode(LocalDateTime.parse(innkrevingsinformasjon.nyBetalingsordning!!.datoFraOgMed!!).toLocalDate(), null),
                     beløp = innkrevingsinformasjon.nyBetalingsordning.belop!!,
                 ),
             innkrevingssakshistorikk =
