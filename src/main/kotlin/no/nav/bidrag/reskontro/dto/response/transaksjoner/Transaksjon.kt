@@ -17,7 +17,8 @@ data class Transaksjon(
     )
     val transaksjonsid: Long,
     @field:Schema(
-        description = "Transaksjonskoden for transaksjonen.\nGyldige transaksjonskoder er:\n" +
+        description =
+            "Transaksjonskoden for transaksjonen.\nGyldige transaksjonskoder er:\n" +
                 "| Kode  | Korreksjonskode | Beskrivelse                                |\n" +
                 "|-------|-----------------|--------------------------------------------|\n" +
                 "| A1    | A3              | Bidragsforskudd                            |\n" +
@@ -74,7 +75,7 @@ data class Transaksjon(
                 "| 371   |                 | Tilbakebetaling                            |\n" +
                 "| 390   |                 | Annullert innbet                           |\n" +
                 "| 400   |                 | Avskrivning                                |\n" +
-                "| 401   |                 | Innbetaling/avskriving                     |\n"
+                "| 401   |                 | Innbetaling/avskriving                     |\n",
     )
     val transaksjonskode: String,
     @field:Schema(

@@ -1,6 +1,5 @@
 package no.nav.bidrag.reskontro.service
 
-import java.time.LocalDateTime
 import no.nav.bidrag.commons.security.maskinporten.MaskinportenClientException
 import no.nav.bidrag.domene.ident.Ident
 import no.nav.bidrag.domene.ident.Organisasjonsnummer
@@ -26,6 +25,7 @@ import no.nav.bidrag.transport.person.PersonRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class ReskontroService(private val skattReskontroConsumer: SkattReskontroConsumer) {
